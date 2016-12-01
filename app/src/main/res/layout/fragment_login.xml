@@ -12,7 +12,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="22dp"
         android:gravity="center_horizontal"
-        android:text="Account Login"
+        android:text="FindHouse Login"
         android:textColor="#fff"
         android:textSize="26sp"
         android:textStyle="bold" />

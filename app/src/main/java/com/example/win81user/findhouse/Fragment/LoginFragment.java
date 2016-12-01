@@ -2,8 +2,11 @@ package com.example.win81user.findhouse.Fragment;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
@@ -34,8 +37,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private TextView tv_register;
     private ProgressBar progress;
     private SharedPreferences pref;
+    ProgressDialog dialog;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,6 +61,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         btn_login.setOnClickListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
 
@@ -66,9 +71,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 String email = et_email.getText().toString();
                 String password = et_password.getText().toString();
 
-                if(!email.isEmpty() && !password.isEmpty()) {
 
-                    progress.setVisibility(View.VISIBLE);
+
+                if(!email.isEmpty() && !password.isEmpty()) {
+                    dialog = new ProgressDialog(getContext());
+                    dialog.setMessage("Loading...");
+                    dialog.setIndeterminate(true);
+                    dialog.show();
+//                    progress.setVisibility(View.VISIBLE);
+
+
                     loginProcess(email,password);
 
                 } else {
@@ -113,7 +125,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     goToProfile();
 
                 }
-                progress.setVisibility(View.INVISIBLE);
+//                progress.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
             }
 
             @Override
