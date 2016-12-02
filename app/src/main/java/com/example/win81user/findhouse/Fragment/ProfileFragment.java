@@ -14,8 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.win81user.findhouse.ActivityDrawer;
 import com.example.win81user.findhouse.Constants.Constants;
-import com.example.win81user.findhouse.MainActivity;
 import com.example.win81user.findhouse.R;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
@@ -135,7 +135,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private void goToprop(){
 
 //        Activity ac = new MainActivity();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
+        Intent intent = new Intent(getActivity(), ActivityDrawer.class);
         startActivity(intent);
 
 //        android.support.v4.app.Fragment ShowFeed  = new ShowFeed();

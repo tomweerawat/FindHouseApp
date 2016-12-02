@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-
+    public int fixID;
     private ItemModel itemModel;
     private static ClickListener clicklistener = null;
 
@@ -41,7 +41,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        this.fixID=position;
         holder.txtName1.setText(getItem(position).getDescription()+"\n"+getItem(position).getPrice()+"\t"+"Baht");
 //        holder.txtName.setText(getItem(position).getPrice());
 
@@ -53,13 +53,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 //                Long.parseLong(getItem(position).getTimeStamp()),
 //                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
 //        holder.timeStamp.setText(timeAgo);
+
     }
 
     @Override
     public int getItemCount() {
         return itemModel.getProperty().length;
 
-//        return 10;
     }
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
