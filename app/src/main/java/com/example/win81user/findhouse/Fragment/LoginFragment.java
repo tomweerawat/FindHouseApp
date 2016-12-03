@@ -1,18 +1,20 @@
 package com.example.win81user.findhouse.Fragment;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.AppCompatButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +25,11 @@ import com.example.win81user.findhouse.Model.ServerRequest;
 import com.example.win81user.findhouse.Model.ServerResponse;
 import com.example.win81user.findhouse.Model.User;
 import com.example.win81user.findhouse.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -32,11 +38,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
-    private AppCompatButton btn_login;
+    private Button btn_login;
     private EditText et_email,et_password;
     private TextView tv_register;
     private ProgressBar progress;
     private SharedPreferences pref;
+    FragmentManager mFragmentManager;
     ProgressDialog dialog;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -50,9 +57,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private void initViews(View view){
 
+
+//        pref = getActivity().getSharedPreferences("USERPROFILE", getContext().MODE_PRIVATE);
         pref = getActivity().getPreferences(0);
 
-        btn_login = (AppCompatButton)view.findViewById(R.id.btn_login);
+        btn_login = (Button)view.findViewById(R.id.btn_login);
         et_email = (EditText)view.findViewById(R.id.et_email);
         et_password = (EditText)view.findViewById(R.id.et_password);
 
@@ -93,8 +102,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
     private void loginProcess(String email,String password){
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        Log.e("OkHttpClient","connected"+client);
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -149,6 +167,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     private void goToProfile(){
+//        Intent i = new Intent(getActivity(), ProfileFragment.class);
+//        startActivity(i);
 
         Fragment profile = new ProfileFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();

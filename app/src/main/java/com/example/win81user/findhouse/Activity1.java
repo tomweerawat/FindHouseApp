@@ -1,18 +1,20 @@
 package com.example.win81user.findhouse;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
 import com.example.win81user.findhouse.Fragment.ProfileFragment;
 
-public class Activity1 extends AppCompatActivity {
+public class Activity1 extends FragmentActivity {
 
     private SharedPreferences pref;
+    FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,13 @@ public class Activity1 extends AppCompatActivity {
         }else {
             fragment = new LoginFragment();
         }
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame,fragment);
         ft.commit();
+
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.replace(R.id.fragment_frame,fragment);
+//        ft.commit();
     }
 
 }

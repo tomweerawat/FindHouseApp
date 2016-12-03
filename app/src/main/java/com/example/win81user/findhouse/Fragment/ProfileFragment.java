@@ -1,8 +1,8 @@
 package com.example.win81user.findhouse.Fragment;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private EditText et_old_password,et_new_password;
     private AlertDialog dialog;
     private ProgressBar progress;
+    private ImageView imageView;
 
 
     @Override
@@ -51,6 +53,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         tv_name = (TextView)view.findViewById(R.id.tv_name);
         tv_email = (TextView)view.findViewById(R.id.tv_email);
+
         btn_change_password = (AppCompatButton)view.findViewById(R.id.btn_chg_password);
         btn_logout = (AppCompatButton)view.findViewById(R.id.btn_logout);
         btn_change_password.setOnClickListener(this);
@@ -58,49 +61,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     }
 
-/*    private void showDialog(){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_change_password, null);
-        et_old_password = (EditText)view.findViewById(R.id.et_old_password);
-        et_new_password = (EditText)view.findViewById(R.id.et_new_password);
-        tv_message = (TextView)view.findViewById(R.id.tv_message);
-        progress = (ProgressBar)view.findViewById(R.id.progress);
-        builder.setView(view);
-        builder.setTitle("Change Password");
-        builder.setPositiveButton("Change Password", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog = builder.create();
-        dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String old_password = et_old_password.getText().toString();
-                    String new_password = et_new_password.getText().toString();
-                    if(!old_password.isEmpty() && !new_password.isEmpty()){
-
-                        progress.setVisibility(View.VISIBLE);
-                        changePasswordProcess(pref.getString(Constants.EMAIL,""),old_password,new_password);
-
-                    }else {
-
-                        tv_message.setVisibility(View.VISIBLE);
-                        tv_message.setText("Fields are empty");
-                    }
-                }
-            });
-    }*/
 
     @Override
     public void onClick(View v) {

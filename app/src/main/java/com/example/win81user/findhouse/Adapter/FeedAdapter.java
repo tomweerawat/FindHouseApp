@@ -17,12 +17,18 @@ import com.squareup.picasso.Picasso;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public int fixID;
     private ItemModel itemModel;
+//    private ArrayList<ItemModel> itemModel;
     private static ClickListener clicklistener = null;
 
 
     public FeedAdapter(ItemModel item) {
         itemModel = (ItemModel) item;
     }
+  /*  public FeedAdapter(ArrayList<ItemModel> item) {
+        this.itemModel = item;
+
+    }
+*/
 
 
     @Override

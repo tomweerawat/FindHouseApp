@@ -1,8 +1,9 @@
 package com.example.win81user.findhouse;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,14 +28,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 
-public class ShowFeed extends android.support.v4.app.Fragment implements Callback<ItemModel>,ClickListener {
+public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListener {
 
     public final static String ITEMS_COUNT_KEY = "PartThreeFragment$ItemsCount";
-    SwipeRefreshLayout swipeRefreshLayout;
     Retrofit retrofit;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private FeedAdapter dataAdapter;
+    private ItemModel itemModel;
     //http://192.168.25.2:8181/weerawat/ https://weerawatcomsci.github.io/feed/
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
 
@@ -50,14 +51,20 @@ public class ShowFeed extends android.support.v4.app.Fragment implements Callbac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_show_feed, container, false);
+
+     /*   ArrayList<String> itemModel = new ArrayList<>();
+        for (int i = 0; i < itemModel.size(); i++) {
+            itemModel.add("TextView_" + i);
+        }
+        dataAdapter = new FeedAdapter(itemModel);*/
         setupRecyclerView(recyclerView);
         recyclerView.setAdapter(dataAdapter);
+//        dataAdapter.setClickListener(this);
         return recyclerView;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -78,14 +85,7 @@ public class ShowFeed extends android.support.v4.app.Fragment implements Callbac
 
         apiCall(retrofit);
         Log.e("apicall","connected"+retrofit);
-      /*  swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
-            @Override
-            public void onRefresh() {
-                apiCall(retrofit);
-                Log.e("onRefresh","Success Refresh");
-            }
-        });*/
     }
 
     private void apiCall(Retrofit retrofit) {
@@ -100,7 +100,7 @@ public class ShowFeed extends android.support.v4.app.Fragment implements Callbac
         FeedAdapter adapter = new FeedAdapter(itemModel);
         recyclerView.setAdapter(adapter);
         adapter.setClickListener(this);
-//        swipeRefreshLayout.setRefreshing(false);
+
         Log.e("OnResponse","Response");
     }
 
@@ -116,9 +116,9 @@ public class ShowFeed extends android.support.v4.app.Fragment implements Callbac
     @Override
     public void itemClicked(View view, int position) {
 
-      /*  Intent intent = new Intent(ShowFeed.this, MainActivity.class);
+        Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra("ItemPosition", position);
 
-        startActivity(intent);*/
+        startActivity(intent);
     }
 }

@@ -1,38 +1,25 @@
 package com.example.win81user.findhouse;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
+   /* *//**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+     *//*
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
+    *//**
      * The {@link ViewPager} that will host the section contents.
-     */
+     *//*
     private ViewPager mViewPager;
     private Toolbar mToolbar;
     private TabLayout tabLayout;
@@ -47,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
 
 
-      /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+      *//*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });*/
+        });*//*
 
     }
     private void setupTabIcons() {
@@ -79,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent i = getIntent();
+               *//* Intent i = getIntent();
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 i.putExtra("color", Color.WHITE);
                 startActivity(i);
-                Log.d("Tom", "button button button..................");*/
+                Log.d("Tom", "button button button..................");*//*
 
 
 //                startActivity(new Intent(PartThreeActivity.this, ActivityHome.class));
@@ -168,10 +155,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    */
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
-     */
+     *//*
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -213,6 +202,14 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //            return null;
 //        }
+
+    }*/
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
 
     }
 }

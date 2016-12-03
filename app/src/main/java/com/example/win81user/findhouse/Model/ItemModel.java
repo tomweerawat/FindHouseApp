@@ -10,4 +10,8 @@ public class ItemModel {
     public Property[] getProperty(){
         return property;
     }
+  /*  ArrayList<Property> Property ;
+    public  ArrayList<Property> getProperty(){
+        return Property;
+    }*/
 }

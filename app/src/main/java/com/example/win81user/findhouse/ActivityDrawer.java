@@ -1,7 +1,6 @@
 package com.example.win81user.findhouse;
 
-import android.app.SearchManager;
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -10,30 +9,33 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Drawer.TabFragment;
+import com.example.win81user.findhouse.Fragment.LoginFragment;
+import com.example.win81user.findhouse.Fragment.ProfileFragment;
 
 public class ActivityDrawer extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
-    private int[] tabIcons = {
-            R.drawable.ic_supervisor_account_black_24dp,
-            R.drawable.ic_home_black_24dp,
-            R.drawable.ic_room_black_24dp
+    SharedPreferences pref;
+    ProfileFragment pro;
 
-    };
-
+    private TextView tv;
     private TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+//        SharedPreferences sp = getSharedPreferences(Constants.EMAIL, Context.MODE_PRIVATE);
         tabLayout = (TabLayout) findViewById(R.id.tabs1);
+
+
 
 
         /**
@@ -42,6 +44,8 @@ public class ActivityDrawer extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
+        View hView =  mNavigationView.getHeaderView(0);
+
 
         /**
          * Lets inflate the very first fragment
@@ -51,11 +55,14 @@ public class ActivityDrawer extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+
         /**
          * Setup click events on the Navigation View Items.
          */
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
@@ -72,6 +79,16 @@ public class ActivityDrawer extends AppCompatActivity {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
                 }
+                if (menuItem.getItemId() == R.id.logout) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putBoolean(Constants.IS_LOGGED_IN,false);
+                    editor.putString(Constants.EMAIL,"");
+                    editor.putString(Constants.NAME,"");
+                    editor.apply();
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView,new LoginFragment()).commit();
+                }
+
 
                 return false;
             }
@@ -92,22 +109,6 @@ public class ActivityDrawer extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        SearchManager searchManager = (SearchManager)this.getSystemService(Context.SEARCH_SERVICE);
-
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
 
 }
