@@ -1,6 +1,7 @@
 package com.example.win81user.findhouse.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,8 +9,6 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.win81user.findhouse.API.RequestInterface;
+import com.example.win81user.findhouse.ActivityDrawer;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Model.ServerRequest;
 import com.example.win81user.findhouse.Model.ServerResponse;
@@ -167,12 +167,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     private void goToProfile(){
-//        Intent i = new Intent(getActivity(), ProfileFragment.class);
-//        startActivity(i);
+        Intent i = new Intent(getActivity(), ActivityDrawer.class);
+        startActivity(i);
 
-        Fragment profile = new ProfileFragment();
+      /*  Fragment profile = new ProfileFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame,profile);
-        ft.commit();
+        ft.commit();*/
     }
 }

@@ -32,12 +32,11 @@
         </activity>
         <activity android:name=".Activity1" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".DrawerActivity.ActivityHome"/>
+        <activity android:name=".DrawerActivity.ActivityHome" />
         <activity
             android:name=".ActivityDrawer"
             android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

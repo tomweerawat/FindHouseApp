@@ -7,98 +7,70 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.win81user.findhouse.ClickListener;
+import com.example.win81user.findhouse.Utility.ClickListener;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-    public int fixID;
+    private ArrayList<Property> properties;
     private ItemModel itemModel;
-//    private ArrayList<ItemModel> itemModel;
     private static ClickListener clicklistener = null;
 
-
-    public FeedAdapter(ItemModel item) {
-        itemModel = (ItemModel) item;
+    public FeedAdapter(ArrayList<Property> properties) {
+        this.properties = properties;
     }
-  /*  public FeedAdapter(ArrayList<ItemModel> item) {
-        this.itemModel = item;
-
-    }
-*/
-
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    public FeedAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.single_item,viewGroup, false);
+        return new ViewHolder(view);
     }
-
-    public Property getItem(int position) {
-        return itemModel.getProperty()[position];
-    }
-
     public void setClickListener(ClickListener listener) {
         this.clicklistener = listener;
     }
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        this.fixID=position;
-        holder.txtName1.setText(getItem(position).getDescription()+"\n"+getItem(position).getPrice()+"\t"+"Baht");
-//        holder.txtName.setText(getItem(position).getPrice());
 
-        Picasso.with(holder.image.getContext()).load(getItem(position).getImage()).into(holder.image);
-//        holder.txtStatus.setText(getItem(position).getStatus());
-//        Picasso.with(holder.image.getContext()).load(getItem(position).getProfilePic()).into(holder.proPic);
-//        holder.url.setText(getItem(position).getUrl());
-//        CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
-//                Long.parseLong(getItem(position).getTimeStamp()),
-//                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
-//        holder.timeStamp.setText(timeAgo);
+    @Override
+    public void onBindViewHolder(FeedAdapter.ViewHolder viewHolder, int i) {
+        viewHolder.txtName1.setText(properties.get(i).getDescription()+"\n"+properties.get(i).getPrice()+"\t"+"Baht");
+        Picasso.with(viewHolder.image.getContext()).load(properties.get(i).getImage()).into(viewHolder.image);
+
 
     }
 
     @Override
     public int getItemCount() {
-        return itemModel.getProperty().length;
-
+        return properties.size();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // each data item is just a string in this case
 
-        public TextView txtName,txtName1;
-        public ImageView image;
-        public TextView txtStatus;
-        public ImageView proPic;
-        public TextView url;
-        public TextView timeStamp;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView txtName,txtName1;
+        private ImageView image,shareImageView;
+        private TextView txtStatus;
+        private TextView url;
+        private TextView timeStamp;
 
         public ViewHolder(View v) {
             super(v);
-//            txtName = (TextView)v.findViewById(R.id.titleTextView1);
             txtName1 = (TextView)v.findViewById(R.id.titleTextView);
             image = (ImageView)v.findViewById(R.id.coverImageView);
-//            txtStatus = (TextView)v.findViewById(R.id.txtStatusMsg);
-//            proPic = (ImageView)v.findViewById(R.id.profilePic);
-//            url = (TextView)v.findViewById(R.id.txtUrl);
-//            timeStamp = (TextView)v.findViewById(R.id.timestamp);
+//            shareImageView = (ImageView) v.findViewById(R.id.shareImageView);
+            v.setOnClickListener(this);
 
-          v.setOnClickListener(this);
+
         }
-
 
         @Override
         public void onClick(View v) {
-
             if (clicklistener != null) {
                 clicklistener.itemClicked(v, getAdapterPosition());
             }
-        }
-    }
 
+        }
+
+    }
 
 }

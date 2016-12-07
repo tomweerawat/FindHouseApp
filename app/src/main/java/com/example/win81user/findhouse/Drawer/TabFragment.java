@@ -58,7 +58,7 @@ public class TabFragment extends Fragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                    tabLayout.setupWithViewPager(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
                 tabLayout.getTabAt(0).setIcon(tabIcons[0]);
                 tabLayout.getTabAt(1).setIcon(tabIcons[1]);
                 tabLayout.getTabAt(2).setIcon(tabIcons[2]);
@@ -107,11 +107,11 @@ public class TabFragment extends Fragment {
 
             switch (position){
                 case 0 :
-                    return "Primary";
+                    return "";
                 case 1 :
-                    return "Social";
+                    return "";
                 case 2 :
-                    return "Updates";
+                    return "";
             }
                 return null;
         }

@@ -11,9 +11,6 @@
           android:id="@+id/nav_item_sent"
           android:icon="@drawable/sent"/>
 
-    <item android:title="Drafts"
-          android:id="@+id/nav_item_draft"
-          android:icon="@drawable/draft"/>
 
 
 
@@ -32,11 +29,9 @@
 
         <item android:title="Settings"
               android:icon="@drawable/settings"/>
-        <item android:title="Help"
-             android:icon="@drawable/help"/>
         <item android:title="Log Out"
             android:id="@+id/logout"
-            android:icon="@drawable/help"/>
+             android:icon="@drawable/help"/>
     </group>
 
 

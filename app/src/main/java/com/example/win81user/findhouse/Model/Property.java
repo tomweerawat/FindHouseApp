@@ -34,8 +34,21 @@ public class Property {
     private String activation;
 
     @Expose
-    @SerializedName("Image")
+    @SerializedName("img1")
     private String Image;
+    @Expose
+    @SerializedName("img2")
+    private String Image2;
+
+    @Expose
+    @SerializedName("img3")
+    private String Image3;
+    @Expose
+    @SerializedName("img4")
+    private String Image4;
+    @Expose
+    @SerializedName("img5")
+    private String Image5;
 
 
     public int getProperty_id() {
@@ -108,6 +121,37 @@ public class Property {
 
     public void setImage(String image) {
         Image = image;
+    }
+    public String getImage5() {
+        return Image5;
+    }
+
+    public void setImage5(String image5) {
+        Image5 = image5;
+    }
+
+    public String getImage4() {
+        return Image4;
+    }
+
+    public void setImage4(String image4) {
+        Image4 = image4;
+    }
+
+    public String getImage3() {
+        return Image3;
+    }
+
+    public void setImage3(String image3) {
+        Image3 = image3;
+    }
+
+    public String getImage2() {
+        return Image2;
+    }
+
+    public void setImage2(String image2) {
+        Image2 = image2;
     }
 
 }

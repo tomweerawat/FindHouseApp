@@ -15,8 +15,13 @@ import android.widget.Toast;
 import com.example.win81user.findhouse.API.MyApi;
 import com.example.win81user.findhouse.Adapter.FeedAdapter;
 import com.example.win81user.findhouse.Model.ItemModel;
+import com.example.win81user.findhouse.Model.Property;
+import com.example.win81user.findhouse.Utility.ClickListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,7 +40,7 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private FeedAdapter dataAdapter;
-    private ItemModel itemModel;
+    private ArrayList<Property> data;
     //http://192.168.25.2:8181/weerawat/ https://weerawatcomsci.github.io/feed/
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
 
@@ -51,15 +56,8 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_show_feed, container, false);
-
-     /*   ArrayList<String> itemModel = new ArrayList<>();
-        for (int i = 0; i < itemModel.size(); i++) {
-            itemModel.add("TextView_" + i);
-        }
-        dataAdapter = new FeedAdapter(itemModel);*/
         setupRecyclerView(recyclerView);
         recyclerView.setAdapter(dataAdapter);
-//        dataAdapter.setClickListener(this);
         return recyclerView;
     }
 
@@ -97,11 +95,14 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     @Override
     public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
         ItemModel itemModel = response.body();
-        FeedAdapter adapter = new FeedAdapter(itemModel);
-        recyclerView.setAdapter(adapter);
-        adapter.setClickListener(this);
+        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+        for (int i =1; i<data.size();i++){
 
-        Log.e("OnResponse","Response");
+        }
+        Log.e("data",itemModel.getProperty()+"");
+        dataAdapter = new FeedAdapter(data);
+        recyclerView.setAdapter(dataAdapter);
+        dataAdapter.setClickListener(this);
     }
 
     @Override
@@ -118,7 +119,34 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra("ItemPosition", position);
-
         startActivity(intent);
+       /* Bundle args = new Bundle();
+        Fragment socialFragment = new TestFragment();
+        args.putInt("ItemPosition",position);
+        socialFragment.setArguments(args);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_frame,socialFragment);
+        ft.commit();*/
+
+
+        /* int[] num =new int[position];
+          for(int i = 0 ;i<=num.length;i++){
+             Log.d("GGGGGGGGGGGGGGgg","GGGGGG"+i);
+
+          }*/
+       /* switch (position){
+            case 0:
+                Toast.makeText(getContext(),"Click"+position,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                break;
+            case 1:Toast.makeText(getContext(),"tom"+position,Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getActivity(), MainActivity.class);
+                startActivity(i);
+                break;
+        }*/
+
     }
+
+
 }
