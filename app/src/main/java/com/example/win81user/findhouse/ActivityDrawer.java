@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -55,7 +57,7 @@ public class ActivityDrawer extends AppCompatActivity {
     // and profile image
 //    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
     private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/userimg/sw32.jpg";
-    private static final String urlNavHeaderBg ="http://192.168.25.2:8181/FindHouse/uploads/files/bg2.jpg";
+    private static final String urlNavHeaderBg ="http://api.androidhive.info/images/nav-menu-header-bg.jpg";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
@@ -87,9 +89,31 @@ public class ActivityDrawer extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs1);
         tabLayout.setupWithViewPager(viewPager);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
 
-//        pref = getPreferences(0);
-//        SharedPreferences sf = this.getPreferences(0)(Constants.EMAIL,MODE_WORLD_READABLE);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_favorites:
+                                Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
+
+                                break;
+                            case R.id.action_schedules:
+                                Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
+
+                                break;
+                            case R.id.action_music:
+                                Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
+
+                                break;
+                        }
+                        return false;
+                    }
+                });
+
 
         pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
 
