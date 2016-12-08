@@ -1,5 +1,6 @@
 package com.example.win81user.findhouse;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +29,7 @@ import com.example.win81user.findhouse.Adapter.ViewPagerAdapter;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Drawer.PrimaryFragment;
 import com.example.win81user.findhouse.Drawer.SocialFragment;
+import com.example.win81user.findhouse.Fragment.LoginFragment;
 
 public class ActivityDrawer extends AppCompatActivity {
     private NavigationView navigationView;
@@ -50,9 +53,9 @@ public class ActivityDrawer extends AppCompatActivity {
 
     // urls to load navigation header background image
     // and profile image
-    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
-    private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/files/74.jpg";
-
+//    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
+    private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/userimg/sw32.jpg";
+    private static final String urlNavHeaderBg ="http://192.168.25.2:8181/FindHouse/uploads/files/bg2.jpg";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
@@ -85,9 +88,17 @@ public class ActivityDrawer extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs1);
         tabLayout.setupWithViewPager(viewPager);
 
-        pref = getPreferences(0);
-//        pref = getSharedPreferences(Constants.EMAIL, Activity1.MODE_PRIVATE);
-        Log.d("gggggggggggggg","ggggggggggg"+pref);
+//        pref = getPreferences(0);
+//        SharedPreferences sf = this.getPreferences(0)(Constants.EMAIL,MODE_WORLD_READABLE);
+
+        pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
+
+        Log.d("DDDDDDDDDDDD","DDDDDDDDDDDDdd"+"\t"+pref.getString(Constants.EMAIL,""+"\t"+pref));
+
+
+
+
+
 
         mHandler = new Handler();
 
@@ -143,8 +154,9 @@ public class ActivityDrawer extends AppCompatActivity {
      */
     private void loadNavHeader() {
         // name, website
-        txtName.setText("");
+        txtName.setText(pref.getString(Constants.NAME,""));
         txtWebsite.setText(pref.getString(Constants.EMAIL,""));
+        Log.d("ppppppppppppp","ppppppppppp"+pref.getString(Constants.EMAIL,""));
 
         // loading header background image
         Glide.with(this).load(urlNavHeaderBg)
@@ -258,17 +270,10 @@ public class ActivityDrawer extends AppCompatActivity {
                         startActivity(new Intent(ActivityDrawer.this, MainActivity.class));
                         drawer.closeDrawers();
                         break;
-
-                  /*  case R.id.nav_about_us:
-                        // launch new intent instead of loading fragment
-                        startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+                    case R.id.logout:
+                        logout();
                         drawer.closeDrawers();
-                        return true;
-                    case R.id.nav_privacy_policy:
-                        // launch new intent instead of loading fragment
-                        startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
-                        drawer.closeDrawers();
-                        return true;*/
+                        break;
                     default:
                         navItemIndex = 0;
                 }
@@ -379,13 +384,6 @@ public class ActivityDrawer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // show or hide the fab
-   /* private void toggleFab() {
-        if (navItemIndex == 0)
-            fab.show();
-        else
-            fab.hide();
-    }*/
       private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -400,4 +398,22 @@ public class ActivityDrawer extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
     }
+    private void logout() {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(Constants.IS_LOGGED_IN,false);
+        editor.putString(Constants.EMAIL,"");
+        editor.putString(Constants.NAME,"");
+        editor.commit();
+        goToLogin();
+    }
+    private void goToLogin(){
+/*
+      Intent i = new Intent(this,LoginFragment.class);
+        startActivity(i);*/
+        Fragment fragment = new LoginFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_frame,fragment);
+        fragmentTransaction.commit();
+    }
+
 }
