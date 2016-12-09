@@ -12,7 +12,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="22dp"
         android:gravity="center_horizontal"
-        android:text="FindHouse Login"
+        android:text="FindHouse"
         android:textColor="#fff"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -49,11 +49,11 @@
                 <EditText
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_email"
+                    android:drawableLeft="@drawable/ic_mail_black_24dp"
                     android:drawableTint="#FF4081"
                     android:id="@+id/et_email"
                     android:singleLine="true"
-                    android:hint="User Name"
+                    android:hint="E-mail address"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
@@ -67,7 +67,7 @@
                     android:layout_marginTop="16dp"
                     android:singleLine="true"
                     android:id="@+id/et_password"
-                    android:drawableLeft="@drawable/ic_key"
+                    android:drawableLeft="@drawable/ic_lock_black_24dp"
                     android:drawableTint="#FF4081"
                     android:hint="Password"
                     android:inputType="numberPassword" />
