@@ -50,7 +50,7 @@
         </android.support.v4.view.ViewPager>
     </FrameLayout>
 
-    <RelativeLayout
+ <!--   <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="578dp">
         <android.support.design.widget.BottomNavigationView
@@ -60,8 +60,8 @@
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
             app:tabIndicatorColor="#FFC400"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="#6c6c6c"
             app:menu="@menu/bottom_navigation_main" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </android.support.design.widget.CoordinatorLayout>

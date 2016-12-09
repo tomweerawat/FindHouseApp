@@ -9,6 +9,16 @@ public class User {
     private String unique_id;
     private String password;
 
+    public String getUserimage() {
+        return userimage;
+    }
+
+    public void setUserimage(String userimage) {
+        this.userimage = userimage;
+    }
+
+    private String userimage;
+
     public String getName() {
         return first_name;
     }

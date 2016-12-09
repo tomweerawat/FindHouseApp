@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.example.win81user.findhouse.Constants.Constants;
@@ -28,17 +26,16 @@ public class Activity1 extends FragmentActivity {
     }
 
     private void initFragment(){
-        Fragment fragment = new Fragment();
+//        Fragment fragment = new Fragment();
         if(pref.getBoolean(Constants.IS_LOGGED_IN,false)){
 //            fragment = new ProfileFragment();
             Intent i = new Intent(Activity1.this,ActivityDrawer.class);
             startActivity(i);
         }else {
-            fragment = new LoginFragment();
+//            fragment = new LoginFragment();
+            Intent i = new Intent(Activity1.this,LoginFragment.class);
+            startActivity(i);
         }
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_frame,fragment);
-        ft.commit();
 
 //        FragmentTransaction ft = getFragmentManager().beginTransaction();
 //        ft.replace(R.id.fragment_frame,fragment);

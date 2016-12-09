@@ -32,7 +32,7 @@
         </activity>
         <activity android:name=".Activity1" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".DrawerActivity.ActivityHome" />
+        <activity android:name=".Fragment.LoginFragment"/>
         <activity
             android:name=".ActivityDrawer"
             android:label="@string/title_activity_drawer"

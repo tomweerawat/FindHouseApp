@@ -5,12 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -51,12 +48,8 @@ public class ActivityDrawer extends AppCompatActivity {
 
     };
 
-
-
-    // urls to load navigation header background image
-    // and profile image
-//    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
-    private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/userimg/sw32.jpg";
+//  private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
+//    private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/userimg/sw32.jpg";
     private static final String urlNavHeaderBg ="http://api.androidhive.info/images/nav-menu-header-bg.jpg";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -89,30 +82,38 @@ public class ActivityDrawer extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs1);
         tabLayout.setupWithViewPager(viewPager);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+       /*   BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(
+      bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_favorites:
                                 Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
-
+                              *//*  Fragment fragment = new ShowFeed();
+                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.frame,fragment);
+                                fragmentTransaction.commit();*//*
                                 break;
                             case R.id.action_schedules:
                                 Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
+                              *//*  Fragment f = new SocialFragment();
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.frame,f);
+                                ft.commit();*//*
 
                                 break;
                             case R.id.action_music:
                                 Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
 
                                 break;
+
                         }
                         return false;
                     }
-                });
+                });*/
 
 
         pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
@@ -120,15 +121,10 @@ public class ActivityDrawer extends AppCompatActivity {
         Log.d("DDDDDDDDDDDD","DDDDDDDDDDDDdd"+"\t"+pref.getString(Constants.EMAIL,""+"\t"+pref));
 
 
-
-
-
-
         mHandler = new Handler();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
@@ -161,35 +157,25 @@ public class ActivityDrawer extends AppCompatActivity {
             CURRENT_TAG = TAG_HOME;
             loadHomeFragment();
         }
-        setupTabIcons();
-    }
-
-    private void initview(){
-
-
-
 
     }
 
-    /***
-     * Load navigation menu header information
-     * like background image, profile image
-     * name, website, notifications action view (dot)
-     */
+
+
     private void loadNavHeader() {
-        // name, website
+
         txtName.setText(pref.getString(Constants.NAME,""));
         txtWebsite.setText(pref.getString(Constants.EMAIL,""));
         Log.d("ppppppppppppp","ppppppppppp"+pref.getString(Constants.EMAIL,""));
 
-        // loading header background image
+
         Glide.with(this).load(urlNavHeaderBg)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgNavHeaderBg);
 
-        // Loading profile image
-        Glide.with(this).load(urlProfileImg)
+
+        Glide.with(this).load(pref.getString(Constants.USERIMAGE,""))
                 .crossFade()
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -224,7 +210,7 @@ public class ActivityDrawer extends AppCompatActivity {
         // when switching between navigation menus
         // So using runnable, the fragment is loaded with cross fade effect
         // This effect can be seen in GMail app
-      /*  Runnable mPendingRunnable = new Runnable() {
+        /*Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
                 // update the main content by replacing fragments
@@ -254,16 +240,16 @@ public class ActivityDrawer extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                // home
-//                ShowFeed homeFragment = new ShowFeed();
-//                return homeFragment;
+/*
+                SocialFragment homeFragment = new SocialFragment();
+                return homeFragment;*/
             case 1:
                 // photos
 //                SocialFragment photosFragment = new SocialFragment();
 //                return photosFragment;
 
                 default:
-                return new ShowFeed();
+                return null;
         }
     }
 
@@ -372,7 +358,7 @@ public class ActivityDrawer extends AppCompatActivity {
         }
 
         // when fragment is notifications, load the menu created for notifications
-        if (navItemIndex == 3) {
+        if (navItemIndex == 1) {
             getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         return true;
@@ -390,7 +376,6 @@ public class ActivityDrawer extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
         }
-
         // user is in notifications fragment
         // and selected 'Mark all as Read'
         if (id == R.id.nav_item_sent) {
@@ -401,22 +386,21 @@ public class ActivityDrawer extends AppCompatActivity {
 
         // user is in notifications fragment
         // and selected 'Clear All'
-        if (id == R.id.action_search) {
-            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
-      private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
+
+        /*   Fragment fragment = new ShowFeed();
+                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.frame,fragment);
+                                fragmentTransaction.commit();
+        */
+
         adapter.addFragment(new SocialFragment(), "");
         adapter.addFragment(new PrimaryFragment(), "");
         viewPager.setAdapter(adapter);
@@ -427,17 +411,27 @@ public class ActivityDrawer extends AppCompatActivity {
         editor.putBoolean(Constants.IS_LOGGED_IN,false);
         editor.putString(Constants.EMAIL,"");
         editor.putString(Constants.NAME,"");
+        editor.putString(Constants.USERIMAGE,"");
         editor.commit();
         goToLogin();
     }
     private void goToLogin(){
-/*
       Intent i = new Intent(this,LoginFragment.class);
-        startActivity(i);*/
-        Fragment fragment = new LoginFragment();
+        startActivity(i);
+      /*  Fragment fragment = new LoginFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_frame,fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
     }
+  /*  public void goToSellFund() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(KEY_FUND_PRODUCT, Parcels.wrap(purchasedFund));
+        openActivity(SellFundDetailActivity.class, bundle, true);
+    }
+
+    protected void openActivityAndClearHistory(Class<?> cls) {
+        openActivityAndClearHistory(cls, null);
+    }
+*/
 
 }

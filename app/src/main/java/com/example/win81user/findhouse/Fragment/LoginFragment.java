@@ -1,25 +1,19 @@
 package com.example.win81user.findhouse.Fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.win81user.findhouse.API.RequestInterface;
+import com.example.win81user.findhouse.ActivityDrawer;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Model.ServerRequest;
 import com.example.win81user.findhouse.Model.ServerResponse;
@@ -35,71 +29,132 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+public class LoginFragment extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
+    private static final int REQUEST_SIGNUP = 0;
 
-public class LoginFragment extends Fragment implements View.OnClickListener{
-
-    private Button btn_login;
     private EditText et_email,et_password;
-    private TextView tv_register;
-    private ProgressBar progress;
-
-    FragmentManager mFragmentManager;
-    ProgressDialog dialog;
     SharedPreferences pref;
+    private Button btn_login;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_login);
 
-        View view = inflater.inflate(R.layout.fragment_login,container,false);
-        initViews(view);
-        return view;
+        pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        btn_login = (Button)findViewById(R.id.btn_login);
+        et_email = (EditText)findViewById(R.id.et_email);
+        et_password = (EditText)findViewById(R.id.et_password);
+
+
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+
+
     }
 
-    private void initViews(View view){
+    public void login() {
+        Log.d(TAG, "Login");
 
-        pref = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        if (!validate()) {
+            onLoginFailed();
+            return;
+        }
 
-        btn_login = (Button)view.findViewById(R.id.btn_login);
-        et_email = (EditText)view.findViewById(R.id.et_email);
-        et_password = (EditText)view.findViewById(R.id.et_password);
+        btn_login.setEnabled(false);
 
-        progress = (ProgressBar)view.findViewById(R.id.progress);
+       /* final ProgressDialog progressDialog = new ProgressDialog(LoginFragment.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();*/
+        final MaterialDialog progressDialog = new MaterialDialog.Builder(this)
+                .title("Authenticating...")
+                .content("Pleasewait")
+                .progress(true, 0)
+                .show();
+        String email = et_email.getText().toString();
+        String password = et_password.getText().toString();
 
-        btn_login.setOnClickListener(this);
+        // TODO: Implement your own authentication logic here.
+        loginProcess(email,password);
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed
+                      /*  onLoginSuccess();*/
+
+                        progressDialog.dismiss();
+                    }
+                }, 3000);
+
+
+      /*  new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+
+                        onLoginSuccess();
+
+                        progressDialog.dismiss();
+                    }
+                }, 3000);*/
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
-    public void onClick(View v) {
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true);
+    }
 
-        switch (v.getId()){
+    public void onLoginSuccess() {
 
-            case R.id.btn_login:
-                String email = et_email.getText().toString();
-                String password = et_password.getText().toString();
-
-
-
-                if(!email.isEmpty() && !password.isEmpty()) {
-                    dialog = new ProgressDialog(getContext());
-                    dialog.setMessage("Loading...");
-                    dialog.setIndeterminate(true);
-                    dialog.show();
-//                    progress.setVisibility(View.VISIBLE);
+        Toast.makeText(getBaseContext(), "Welocome "+pref.getString(Constants.NAME,""), Toast.LENGTH_LONG).show();
+        btn_login.setEnabled(true);
+//        finish();
+        Intent i = new Intent(this,ActivityDrawer.class);
+        startActivity(i);
+    }
 
 
-                    loginProcess(email,password);
+    public void onLoginFailed() {
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        btn_login.setEnabled(true);
+    }
 
-                } else {
+    public boolean validate() {
+        boolean valid = true;
 
-                    Snackbar.make(getView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
-                }
-                break;
+        String email = et_email.getText().toString();
+        String password = et_password.getText().toString();
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            et_email.setError("enter a valid email address");
+            valid = false;
+        } else {
+            et_email.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            et_password.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            et_password.setError(null);
 
         }
+
+        return valid;
     }
-    private void loginProcess(String email,String password){
+
+    private void loginProcess(String email, String password) {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -130,48 +185,36 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
 
                 ServerResponse resp = response.body();
-                Snackbar.make(getView(), resp.getMessage(), Snackbar.LENGTH_LONG).show();
+                Toast.makeText(LoginFragment.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
 
                 if(resp.getResult().equals(Constants.SUCCESS)){
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean(Constants.IS_LOGGED_IN,true);
                     editor.putString(Constants.EMAIL,resp.getUser().getEmail());
                     editor.putString(Constants.NAME,resp.getUser().getName());
+                    editor.putString(Constants.USERIMAGE,resp.getUser().getUserimage());
                     editor.putString(Constants.UNIQUE_ID,resp.getUser().getUnique_id());
                     editor.commit();
-                    goToProfile();
-
+                    onLoginSuccess();
+                }else{
+                    onLoginFailed();
                 }
-//                progress.setVisibility(View.INVISIBLE);
-                dialog.dismiss();
+
+
+
             }
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
 
-                progress.setVisibility(View.INVISIBLE);
+
                 Log.d(Constants.TAG,"failed");
-                Snackbar.make(getView(), t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                Toast.makeText(LoginFragment.this, "Fail", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
-    private void goToRegister(){
 
-//        Fragment register = new RegisterFragment();
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.fragment_frame,register);
-//        ft.commit();
-    }
 
-    private void goToProfile(){
-//        Intent i = new Intent(getActivity(), ActivityDrawer.class);
-//        startActivity(i);
-
-        Fragment profile = new ProfileFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_frame,profile);
-        ft.commit();
-    }
 }

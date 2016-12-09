@@ -5,20 +5,21 @@
     <item
         android:id="@+id/action_favorites"
         android:enabled="true"
-        android:icon="@drawable/ic_share"
+        android:icon="@drawable/ic_info_black_24dp"
         android:title=""
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_schedules"
         android:enabled="true"
-        android:icon="@drawable/ic_menu_camera"
+        android:icon="@drawable/ic_home_black_24dp"
         android:title=""
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_music"
         android:enabled="true"
-        android:icon="@drawable/ic_visibility_black_24dp"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:title=""
         app:showAsAction="ifRoom" />
+
 
 </menu>

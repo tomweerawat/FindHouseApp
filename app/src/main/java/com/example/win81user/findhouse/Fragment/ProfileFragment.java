@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.win81user.findhouse.ActivityDrawer;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.R;
@@ -45,7 +46,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         pref = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
         tv_name.setText(pref.getString(Constants.EMAIL,""));
-        Log.d("BBBBBBBBBBBB","BBBBBBBBBBB"+"\t"+pref.getString(Constants.EMAIL,"")+"\t"+pref);
+        Glide.with(this).load(pref.getString(Constants.USERIMAGE,""))
+                .crossFade()
+                .thumbnail(0.5f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+        Log.d("BBBBBBBBBBBB","BBBBBBBBBBB"+"\t"+pref.getString(Constants.EMAIL,"")+"\t"+pref.getString(Constants.USERIMAGE,""));
         tv_email.setText(pref.getString(Constants.EMAIL,""));
 
 //        tv_email.setText(pref.getString(Constants.UNIQUE_ID,"GGGGGG"));
@@ -56,6 +62,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         tv_name = (TextView)view.findViewById(R.id.tv_name);
         tv_email = (TextView)view.findViewById(R.id.tv_email);
+        imageView = (ImageView)view.findViewById(R.id.userimg);
 
         btn_change_password = (AppCompatButton)view.findViewById(R.id.btn_chg_password);
         btn_logout = (AppCompatButton)view.findViewById(R.id.btn_logout);
@@ -89,11 +96,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void goToLogin(){
+        Intent intent = new Intent(getActivity(), LoginFragment.class);
+        startActivity(intent);
 
-        Fragment login = new LoginFragment();
+    /*    Fragment login = new LoginFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame,login);
-        ft.commit();
+        ft.commit();*/
     }
     private void goToprop(){
 
