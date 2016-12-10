@@ -7,9 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.TextView;
 
-import com.example.win81user.findhouse.Drawer.PrimaryFragment;
-import com.example.win81user.findhouse.Drawer.SocialFragment;
-import com.example.win81user.findhouse.Fragment.ProfileFragment;
+import com.example.win81user.findhouse.Drawer.ShowDetailFragment;
+import com.example.win81user.findhouse.Drawer.UpdatesFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -25,19 +24,19 @@ public class MainActivity extends FragmentActivity {
 
         switch (position){
             case 0:
-                Fragment fragment = new SocialFragment();
+                Fragment fragment = new ShowDetailFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.test,fragment);
                 fragmentTransaction.commit();
                 break;
             case 1:
-                Fragment fragment1= new PrimaryFragment();
+                Fragment fragment1= new ShowDetailFragment();
                 FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction1.replace(R.id.test,fragment1);
                 fragmentTransaction1.commit();
                 break;
             case 2:
-                Fragment fragment2 = new ProfileFragment();
+                Fragment fragment2 = new UpdatesFragment();
                 FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction2.replace(R.id.test,fragment2);
                 fragmentTransaction2.commit();
@@ -50,20 +49,4 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            // finish the activity
-            onBackPressed();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }

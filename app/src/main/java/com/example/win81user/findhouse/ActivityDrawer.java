@@ -27,7 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.win81user.findhouse.Adapter.ViewPagerAdapter;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Drawer.PrimaryFragment;
-import com.example.win81user.findhouse.Drawer.SocialFragment;
+import com.example.win81user.findhouse.Drawer.UpdatesFragment;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -249,10 +249,10 @@ public class ActivityDrawer extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
 
-                SocialFragment homeFragment = new SocialFragment();
+                PrimaryFragment homeFragment = new PrimaryFragment();
                 return homeFragment;
             case 1:
-                // photos
+            // photos
 //                SocialFragment photosFragment = new SocialFragment();
 //                return photosFragment;
 
@@ -406,7 +406,7 @@ public class ActivityDrawer extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
-        adapter.addFragment(new SocialFragment(), "");
+        adapter.addFragment(new UpdatesFragment(), "");
         adapter.addFragment(new PrimaryFragment(), "");
         viewPager.setAdapter(adapter);
 
