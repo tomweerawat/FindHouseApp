@@ -29,6 +29,7 @@ import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Drawer.PrimaryFragment;
 import com.example.win81user.findhouse.Drawer.SocialFragment;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class ActivityDrawer extends AppCompatActivity {
     private NavigationView navigationView;
@@ -61,6 +62,7 @@ public class ActivityDrawer extends AppCompatActivity {
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
+    private MaterialSearchView searchView;
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
@@ -75,65 +77,20 @@ public class ActivityDrawer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs1);
-        tabLayout.setupWithViewPager(viewPager);
-       /*   BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
-
-      bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_favorites:
-                                Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
-                              *//*  Fragment fragment = new ShowFeed();
-                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                                fragmentTransaction.replace(R.id.frame,fragment);
-                                fragmentTransaction.commit();*//*
-                                break;
-                            case R.id.action_schedules:
-                                Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
-                              *//*  Fragment f = new SocialFragment();
-                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.frame,f);
-                                ft.commit();*//*
-
-                                break;
-                            case R.id.action_music:
-                                Toast.makeText(ActivityDrawer.this, "Hi", Toast.LENGTH_SHORT).show();
-
-                                break;
-
-                        }
-                        return false;
-                    }
-                });*/
 
 
         pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-
         Log.d("DDDDDDDDDDDD","DDDDDDDDDDDDdd"+"\t"+pref.getString(Constants.EMAIL,""+"\t"+pref));
 
+        initdrawer();
+        initialview();
+        preparesearch();
+        loadNavHeader();
+
+        // initializing navigation menu
+        setUpNavigationView();
 
         mHandler = new Handler();
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-        // Navigation view header
-        navHeader = navigationView.getHeaderView(0);
-        txtName = (TextView) navHeader.findViewById(R.id.name);
-        txtWebsite = (TextView) navHeader.findViewById(R.id.website);
-        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
-        imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
-
-        // load toolbar titles from string resources
 
         tabLayout.post(new Runnable() {
             @Override
@@ -146,11 +103,6 @@ public class ActivityDrawer extends AppCompatActivity {
             }
         });
 
-        // load nav menu header data
-        loadNavHeader();
-
-        // initializing navigation menu
-        setUpNavigationView();
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
@@ -158,9 +110,65 @@ public class ActivityDrawer extends AppCompatActivity {
             loadHomeFragment();
         }
 
+
     }
 
+    private void initdrawer(){
 
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        // Navigation view header
+        navHeader = navigationView.getHeaderView(0);
+        txtName = (TextView) navHeader.findViewById(R.id.name);
+        txtWebsite = (TextView) navHeader.findViewById(R.id.website);
+        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+
+
+    }
+
+    private void initialview(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs1);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+    }
+
+    private void preparesearch(){
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+
+
+    }
 
     private void loadNavHeader() {
 
@@ -210,7 +218,7 @@ public class ActivityDrawer extends AppCompatActivity {
         // when switching between navigation menus
         // So using runnable, the fragment is loaded with cross fade effect
         // This effect can be seen in GMail app
-        /*Runnable mPendingRunnable = new Runnable() {
+/*        Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
                 // update the main content by replacing fragments
@@ -218,7 +226,7 @@ public class ActivityDrawer extends AppCompatActivity {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+                fragmentTransaction.replace(R.id.viewpager, fragment, CURRENT_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         };
@@ -240,9 +248,9 @@ public class ActivityDrawer extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-/*
+
                 SocialFragment homeFragment = new SocialFragment();
-                return homeFragment;*/
+                return homeFragment;
             case 1:
                 // photos
 //                SocialFragment photosFragment = new SocialFragment();
@@ -278,6 +286,8 @@ public class ActivityDrawer extends AppCompatActivity {
                      break;
                     case R.id.nav_item_sent:
                         startActivity(new Intent(ActivityDrawer.this, MainActivity.class));
+
+
                         drawer.closeDrawers();
                         break;
                     case R.id.logout:
@@ -375,13 +385,15 @@ public class ActivityDrawer extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
+
         }
         // user is in notifications fragment
         // and selected 'Mark all as Read'
         if (id == R.id.nav_item_sent) {
-            Intent i = new Intent(this,MainActivity.class);
-            startActivity(i);
             Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
+        }
+        if (id == R.id.action_search) {
+            searchView.setMenuItem(item);
         }
 
         // user is in notifications fragment
@@ -394,13 +406,6 @@ public class ActivityDrawer extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
-
-        /*   Fragment fragment = new ShowFeed();
-                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                                fragmentTransaction.replace(R.id.frame,fragment);
-                                fragmentTransaction.commit();
-        */
-
         adapter.addFragment(new SocialFragment(), "");
         adapter.addFragment(new PrimaryFragment(), "");
         viewPager.setAdapter(adapter);

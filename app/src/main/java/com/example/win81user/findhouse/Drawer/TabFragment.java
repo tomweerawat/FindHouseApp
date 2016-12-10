@@ -85,7 +85,7 @@ public class TabFragment extends Fragment {
         {
           switch (position){
               case 0 : return new ShowFeed();
-              case 1 : return new SocialFragment();
+//              case 1 : return new SocialFragment();
               case 2 : return new UpdatesFragment();
           }
         return null;

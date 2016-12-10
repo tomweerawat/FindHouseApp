@@ -9,4 +9,9 @@
     <color name="black">#000</color>
     <color name="orange">#FA0</color>
     <color name="white">#FFF</color>
+
+    <color name="tomcolor">#444153</color>
+    <color name="tomcolor1">#383547</color>
+    <color name="tomcolor2">#30d1d5</color>
+    <color name="text_color">#222222</color>
 </resources>
