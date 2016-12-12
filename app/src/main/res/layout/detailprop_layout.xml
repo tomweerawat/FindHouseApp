@@ -26,41 +26,17 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="280dp">
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/dashboard_vp_purchased_fund"
+                    <com.daimajia.slider.library.SliderLayout
+                        android:id="@+id/slider"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
-                        android:id="@+id/dashboard_iv_arrow_prev"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:adjustViewBounds="true"
-                        android:padding="@dimen/default_margin_padding_normal"
-                        android:src="@drawable/ic_navigate_before_pink_24dp" />
-                    <ImageView
-                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        />
+                    <com.daimajia.slider.library.Indicators.PagerIndicator
+                        android:id="@+id/custom_indicator"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/homecon"
-                        android:id="@+id/detailimg"
-                        android:scaleType="fitXY" />
-                    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
-                        android:id="@+id/dashboard_iv_arrow_next"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:adjustViewBounds="true"
-                        android:padding="@dimen/default_margin_padding_normal"
-                        android:src="@drawable/ic_navigate_next_pink_36dp" />
-
-
-
-
+                        android:gravity="center"
+                        />
                 </RelativeLayout>
 
                 <LinearLayout

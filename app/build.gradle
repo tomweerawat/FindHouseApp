@@ -52,6 +52,8 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile 'pl.tajchert:waitingdots:0.2.0'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
 
 
 
