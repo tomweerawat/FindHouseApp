@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.NETWORK" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
@@ -30,11 +31,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity1" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Activity.Activity1" />
+        <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Fragment.LoginFragment"/>
         <activity
-            android:name=".ActivityDrawer"
+            android:name=".Activity.ActivityDrawer"
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme" />
     </application>

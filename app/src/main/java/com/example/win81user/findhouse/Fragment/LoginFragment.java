@@ -4,21 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.win81user.findhouse.API.RequestInterface;
-import com.example.win81user.findhouse.ActivityDrawer;
+import com.example.win81user.findhouse.Activity.ActivityDrawer;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Model.ServerRequest;
 import com.example.win81user.findhouse.Model.ServerResponse;
 import com.example.win81user.findhouse.Model.User;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.Common.BaseActivity;
+import com.example.win81user.findhouse.Utility.NextzyUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginFragment extends AppCompatActivity {
+public class LoginFragment extends BaseActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
@@ -64,7 +64,8 @@ public class LoginFragment extends AppCompatActivity {
         Log.d(TAG, "Login");
 
         if (!validate()) {
-            onLoginFailed();
+
+            Failed();
             return;
         }
 
@@ -74,39 +75,23 @@ public class LoginFragment extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();*/
-        final MaterialDialog progressDialog = new MaterialDialog.Builder(this)
-                .title("Authenticating...")
-                .content("Pleasewait")
-                .progress(true, 0)
-                .show();
+
         String email = et_email.getText().toString();
         String password = et_password.getText().toString();
 
         // TODO: Implement your own authentication logic here.
         loginProcess(email,password);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                      /*  onLoginSuccess();*/
+        NextzyUtil.launch(2000, new NextzyUtil.LaunchCallback() {
+            @Override
+            public void onLaunchCallback() {
+                dismissDialog();
 
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-
-
-      /*  new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-
-                        onLoginSuccess();
-
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
-
+            }
+        });
     }
+
+
 
 
     @Override
@@ -116,7 +101,7 @@ public class LoginFragment extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-
+        showLoadingDialog();
         Toast.makeText(getBaseContext(), "Welocome "+pref.getString(Constants.NAME,""), Toast.LENGTH_LONG).show();
         btn_login.setEnabled(true);
 //        finish();
@@ -126,6 +111,12 @@ public class LoginFragment extends AppCompatActivity {
 
 
     public void onLoginFailed() {
+        showLoadingDialog();
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        btn_login.setEnabled(true);
+    }
+    public void Failed() {
+       dismissDialog();
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
         btn_login.setEnabled(true);
     }

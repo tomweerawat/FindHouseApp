@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.win81user.findhouse.ActivityDrawer;
+import com.example.win81user.findhouse.Activity.ActivityDrawer;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.R;
 

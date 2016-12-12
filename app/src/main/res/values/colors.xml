@@ -13,5 +13,6 @@
     <color name="tomcolor">#444153</color>
     <color name="tomcolor1">#383547</color>
     <color name="tomcolor2">#30d1d5</color>
+    <color name="transparent">#00000000</color>
     <color name="text_color">#222222</color>
 </resources>

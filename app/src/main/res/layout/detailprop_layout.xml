@@ -3,45 +3,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-    <ScrollView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbardetail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#f2f2f2">
+            android:layout_height="?attr/actionBarSize"
+            android:background="#00BCD4" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/homecon"
-                android:scaleType="fitXY" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/main_screen_side_padding"
-                android:paddingRight="@dimen/main_screen_side_padding"
-                android:paddingTop="@dimen/text_top_padding">
+                android:background="#f2f2f2">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp">
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/dashboard_vp_purchased_fund"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-                <TextView
+                    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+                        android:id="@+id/dashboard_iv_arrow_prev"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/default_margin_padding_normal"
+                        android:src="@drawable/ic_navigate_before_pink_24dp" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/homecon"
+                        android:id="@+id/detailimg"
+                        android:scaleType="fitXY" />
+                    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+                        android:id="@+id/dashboard_iv_arrow_next"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/default_margin_padding_normal"
+                        android:src="@drawable/ic_navigate_next_pink_36dp" />
+
+
+
+
+                </RelativeLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/title_text_size"
-                    android:text="@string/title"
-                    android:id="@+id/textview_01"
-                    android:layout_marginBottom="@dimen/main_screen_side_padding" />
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/main_screen_side_padding"
+                    android:paddingRight="@dimen/main_screen_side_padding"
+                    android:paddingTop="@dimen/text_top_padding">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp"
-                    android:text="@string/text" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/title_text_size"
+                        android:text="@string/title"
+                        android:id="@+id/txtdetail"
+                        android:layout_marginBottom="@dimen/main_screen_side_padding" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="15sp"
+                        android:id="@+id/description"
+                        android:text="@string/text" />
+                </LinearLayout>
+
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+
+        </ScrollView>
+    </android.support.design.widget.AppBarLayout>
+
+
 </FrameLayout>

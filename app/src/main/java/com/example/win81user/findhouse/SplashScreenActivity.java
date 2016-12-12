@@ -7,6 +7,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.win81user.findhouse.Activity.Activity1;
+
 
 public class SplashScreenActivity extends Activity {
 

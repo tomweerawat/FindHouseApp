@@ -27,4 +27,7 @@
     <string name="title">My Description</string>
     <string name="context_menu">Context menu</string>
 
+    <!--tomtom-->
+    <string name="dialog_loading_loading">Loading</string>
+
 </resources>

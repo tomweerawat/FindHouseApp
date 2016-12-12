@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.win81user.findhouse.API.MyApi;
+import com.example.win81user.findhouse.Activity.MainActivity;
 import com.example.win81user.findhouse.Adapter.FeedAdapter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;

@@ -1,4 +1,4 @@
-package com.example.win81user.findhouse;
+package com.example.win81user.findhouse.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
+import com.example.win81user.findhouse.R;
 
 public class Activity1 extends FragmentActivity {
 

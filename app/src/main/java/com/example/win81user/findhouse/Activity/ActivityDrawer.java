@@ -1,4 +1,4 @@
-package com.example.win81user.findhouse;
+package com.example.win81user.findhouse.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +29,8 @@ import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Drawer.PrimaryFragment;
 import com.example.win81user.findhouse.Drawer.UpdatesFragment;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
+import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.ShowFeed;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class ActivityDrawer extends AppCompatActivity {
