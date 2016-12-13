@@ -1,8 +1,11 @@
 package com.example.win81user.findhouse.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -26,9 +29,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.win81user.findhouse.Adapter.ViewPagerAdapter;
 import com.example.win81user.findhouse.Constants.Constants;
-import com.example.win81user.findhouse.Drawer.PrimaryFragment;
-import com.example.win81user.findhouse.Drawer.UpdatesFragment;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
+import com.example.win81user.findhouse.Fragment.PrimaryFragment;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.ShowFeed;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -53,7 +55,7 @@ public class ActivityDrawer extends AppCompatActivity {
 
 //  private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
 //    private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/userimg/sw32.jpg";
-    private static final String urlNavHeaderBg ="http://api.androidhive.info/images/nav-menu-header-bg.jpg";
+    private static final String urlNavHeaderBg ="http://192.168.25.2:8181/FindHouse/uploads/userimg/tom.png";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
@@ -73,6 +75,8 @@ public class ActivityDrawer extends AppCompatActivity {
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
     private SharedPreferences pref;
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+
 
 
     @Override
@@ -88,7 +92,7 @@ public class ActivityDrawer extends AppCompatActivity {
         initialview();
         preparesearch();
         loadNavHeader();
-
+        startIntroAnimation();
         // initializing navigation menu
         setUpNavigationView();
 
@@ -113,6 +117,37 @@ public class ActivityDrawer extends AppCompatActivity {
         }
 
 
+    }
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+    private void startIntroAnimation() {
+
+
+        int actionbarSize = dpToPx(56);
+        toolbar.setTranslationY(-actionbarSize);
+      /*  getIvLogo().setTranslationY(-actionbarSize);
+        getInboxMenuItem().getActionView().setTranslationY(-actionbarSize);
+*/
+        toolbar.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(1000)
+     /*   getIvLogo().animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(400);
+        getInboxMenuItem().getActionView().animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(500)*/
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                    }
+                })
+                .start();
     }
 
     private void initdrawer(){
@@ -203,7 +238,6 @@ public class ActivityDrawer extends AppCompatActivity {
         // selecting appropriate nav menu item
         selectNavMenu();
 
-        // set toolbar title
         setToolbarTitle();
 
         // if user select the current navigation menu again, don't do anything
@@ -265,6 +299,7 @@ public class ActivityDrawer extends AppCompatActivity {
 
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("FindHouse");
+
     }
 
     private void selectNavMenu() {
@@ -408,7 +443,7 @@ public class ActivityDrawer extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
-        adapter.addFragment(new UpdatesFragment(), "");
+        adapter.addFragment(new PrimaryFragment(), "");
         adapter.addFragment(new PrimaryFragment(), "");
         viewPager.setAdapter(adapter);
 

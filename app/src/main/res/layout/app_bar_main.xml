@@ -21,7 +21,15 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="#00BCD4" />
+                android:background="#2d5d82" >
+              <!--  <ImageView
+                    android:id="@+id/ivLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="center"
+                    android:src="@drawable/img_toolbar_logo" />-->
+            </android.support.v7.widget.Toolbar>
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
@@ -33,8 +41,8 @@
             android:id="@+id/tabs1"
             app:tabGravity="fill"
             app:tabMode="fixed"
-            android:background="#00BCD4"
-            app:tabIndicatorColor="#FFC400"
+            android:background="#2d5d82"
+            app:tabIndicatorColor="#FFFFFF"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/white"
             android:layout_width="match_parent"

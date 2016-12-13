@@ -29,7 +29,7 @@
                     <com.daimajia.slider.library.SliderLayout
                         android:id="@+id/slider"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="300dp"
                         />
                     <com.daimajia.slider.library.Indicators.PagerIndicator
                         android:id="@+id/custom_indicator"
@@ -63,9 +63,25 @@
                         android:textSize="15sp"
                         android:id="@+id/description"
                         android:text="@string/text" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="15sp"
+                        android:id="@+id/descriptio2n"
+                        android:text="@string/text" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="15sp"
+                        android:id="@+id/descript2ion"
+                        android:text="@string/text" />
+
                 </LinearLayout>
 
             </LinearLayout>
+
 
         </ScrollView>
     </android.support.design.widget.AppBarLayout>

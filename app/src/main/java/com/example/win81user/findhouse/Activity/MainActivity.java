@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.TextView;
 
-import com.example.win81user.findhouse.Drawer.PrimaryFragment;
-import com.example.win81user.findhouse.Drawer.UpdatesFragment;
+import com.example.win81user.findhouse.Fragment.PrimaryFragment;
+import com.example.win81user.findhouse.Fragment.UpdatesFragment;
 import com.example.win81user.findhouse.Fragment.ShowDetailFragment;
 import com.example.win81user.findhouse.Common.BaseActivity;
 import com.example.win81user.findhouse.R;

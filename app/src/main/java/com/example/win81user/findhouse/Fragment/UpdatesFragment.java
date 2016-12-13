@@ -39,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Ratan on 7/29/2015.
  */
-public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener  {
+public class UpdatesFragment extends Fragment implements Callback<ItemModel>,ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener  {
     private TextView description,txtdetail,tv_message;
     private ImageView img;
     private ArrayList<Property> data;
@@ -123,22 +123,22 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
         for (int i =0; i<data.size();i++){
             TextSliderView textSliderView = new TextSliderView(this.getContext());
-            txtdetail.setText(data.get(i).getPropertyname());
-            description.setText(data.get(i).getDescription()+"\n"+data.get(i).getPrice()+"\n"+data.get(i).getContact());
+            txtdetail.setText(data.get(1).getPropertyname());
+            description.setText(data.get(1).getDescription()+"\n"+data.get(i).getPrice()+"\n"+data.get(i).getContact());
             String srtUrl = "";
             if(i == 0){
-                srtUrl = data.get(0).getImage();
+                srtUrl = data.get(1).getImage();
             }else if(i==1){
-                srtUrl = data.get(0).getImage2();
+                srtUrl = data.get(1).getImage2();
             }else if(i==2){
-                srtUrl = data.get(0).getImage3();
+                srtUrl = data.get(1).getImage3();
             }else if(i==3){
-                srtUrl = data.get(0).getImage4();
+                srtUrl = data.get(1).getImage4();
             }else if(i==4){
-                srtUrl = data.get(0).getImage5();
+                srtUrl = data.get(1).getImage5();
             }
             textSliderView
-                    .description(data.get(0).getDescription())
+                    .description(data.get(1).getDescription())
                     .image(srtUrl)
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
@@ -196,3 +196,4 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
 
     }
 }
+

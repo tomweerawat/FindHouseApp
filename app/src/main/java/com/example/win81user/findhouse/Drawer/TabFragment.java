@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.win81user.findhouse.Fragment.PrimaryFragment;
+import com.example.win81user.findhouse.Fragment.UpdatesFragment;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.ShowFeed;
 

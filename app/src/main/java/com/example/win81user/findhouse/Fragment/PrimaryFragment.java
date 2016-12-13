@@ -1,4 +1,4 @@
-package com.example.win81user.findhouse.Drawer;
+package com.example.win81user.findhouse.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,11 +12,11 @@ import com.example.win81user.findhouse.R;
 /**
  * Created by Ratan on 7/29/2015.
  */
-public class UpdatesFragment extends Fragment {
+public class PrimaryFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.updates_layout,null);
+        return inflater.inflate(R.layout.primary_layout,null);
     }
 }
