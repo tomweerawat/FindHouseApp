@@ -28,6 +28,12 @@ import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.Utility.ClickListener;
 import com.example.win81user.findhouse.Utility.LoadingDialogFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,7 +51,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Ratan on 7/29/2015.
  */
-public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener  {
+public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
+        ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener,OnMapReadyCallback {
     private TextView description,txtdetail,tv_message;
     private ImageView img;
     private ArrayList<Property> data;
@@ -57,7 +64,8 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
     private LoadingDialogFragment loadingDialogFragment;
     private static final String TAG_DIALOG_FRAGMENT = "dialog_fragment";
-
+    private MapView mapView;
+    private GoogleMap googleMap;
 
     @Nullable
     @Override
@@ -71,6 +79,24 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         return view;
     }
 
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mapView = (MapView) view.findViewById(R.id.mapdetail);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        mapView.getMapAsync(this);
+    }
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        LatLng thailand = new LatLng(13.774642,100.581704);
+        map.addMarker(new MarkerOptions().position(thailand).title("Marker in Sydney"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(thailand));
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(thailand,19));
+
+    }
 
     private void initViews(View view){
         frameLayout=(FrameLayout)view.findViewById(R.id.mapdetail);
