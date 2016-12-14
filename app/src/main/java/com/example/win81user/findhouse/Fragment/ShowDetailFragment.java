@@ -3,25 +3,31 @@ package com.example.win81user.findhouse.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.win81user.findhouse.API.MyApi;
+import com.example.win81user.findhouse.Map.MapsActivity;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.Utility.ClickListener;
+import com.example.win81user.findhouse.Utility.LoadingDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -46,8 +52,12 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
     Retrofit retrofit;
     private   ItemModel itemModel;
     private Toolbar toolbar;
+    private FrameLayout frameLayout;
     private SliderLayout mDemoSlider;
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
+    private LoadingDialogFragment loadingDialogFragment;
+    private static final String TAG_DIALOG_FRAGMENT = "dialog_fragment";
+
 
     @Nullable
     @Override
@@ -55,14 +65,15 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
 
         View view = inflater.inflate(R.layout.detailprop_layout,container,false);
         initViews(view);
+        startanimation(view);
         prepareservice();
-
+        mapinit();
         return view;
     }
 
 
     private void initViews(View view){
-
+        frameLayout=(FrameLayout)view.findViewById(R.id.mapdetail);
         txtdetail = (TextView)view.findViewById(R.id.txtdetail);
         description = (TextView)view.findViewById(R.id.description);
 //        img = (ImageView)view.findViewById(R.id.detailimg);
@@ -78,10 +89,28 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         mDemoSlider = (SliderLayout)view.findViewById(R.id.slider);
         mDemoSlider.addOnPageChangeListener(this);
 
-
-
     }
+    private void mapinit(){
+        Fragment fragment2 = new MapsActivity();
+        FragmentTransaction fragmentTransaction2 = getFragmentManager().beginTransaction();
+        fragmentTransaction2.replace(R.id.mapdetail,fragment2);
+        fragmentTransaction2.commit();
+    }
+    private void startanimation(View view){
+        YoYo.with(Techniques.RubberBand)
+                .duration(100)
+                .playOn(view.findViewById(R.id.txtdetail));
+        YoYo.with(Techniques.RubberBand)
+                .duration(1000)
+                .playOn(view.findViewById(R.id.description));
 
+        YoYo.with(Techniques.Tada)
+                .duration(2000)
+                .playOn(view.findViewById(R.id.toolbardetail));
+        YoYo.with(Techniques.FadeIn)
+                .duration(3000)
+                .playOn(view.findViewById(R.id.slider));
+    }
 
     private void prepareservice(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -155,6 +184,7 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
                     .into(img);*/
 
         }
+
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
@@ -195,4 +225,7 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
     public void onPageScrollStateChanged(int state) {
 
     }
+
+
+
 }

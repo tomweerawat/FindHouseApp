@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.win81user.findhouse.API.MyApi;
 import com.example.win81user.findhouse.Activity.MainActivity;
 import com.example.win81user.findhouse.Adapter.FeedAdapter;
@@ -58,10 +60,15 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_show_feed, container, false);
         setupRecyclerView(recyclerView);
+        staranimation(recyclerView);
         recyclerView.setAdapter(dataAdapter);
         return recyclerView;
     }
-
+    private void staranimation(RecyclerView recyclerView){
+        YoYo.with(Techniques.FadeInUp)
+                .duration(3000)
+                .playOn(recyclerView.findViewById(R.id.recyclerView));
+    }
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

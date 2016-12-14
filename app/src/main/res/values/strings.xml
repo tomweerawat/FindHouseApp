@@ -29,5 +29,6 @@
 
     <!--tomtom-->
     <string name="dialog_loading_loading">Loading</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

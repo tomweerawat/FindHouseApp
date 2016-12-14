@@ -15,27 +15,31 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.win81user.findhouse.Adapter.ViewPagerAdapter;
+import com.example.win81user.findhouse.Common.BaseActivity;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
 import com.example.win81user.findhouse.Fragment.PrimaryFragment;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.ShowFeed;
+import com.example.win81user.findhouse.Utility.NextzyUtil;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-public class ActivityDrawer extends AppCompatActivity {
+public class ActivityDrawer extends BaseActivity {
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
@@ -52,9 +56,6 @@ public class ActivityDrawer extends AppCompatActivity {
             R.drawable.ic_room_black_24dp
 
     };
-
-//  private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
-//    private static final String urlProfileImg = "http://192.168.25.2:8181/FindHouse/uploads/userimg/sw32.jpg";
     private static final String urlNavHeaderBg ="http://192.168.25.2:8181/FindHouse/uploads/userimg/tom.png";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -76,6 +77,9 @@ public class ActivityDrawer extends AppCompatActivity {
     private Handler mHandler;
     private SharedPreferences pref;
     private static final int ANIM_DURATION_TOOLBAR = 300;
+    private static final int USER_OPTIONS_ANIMATION_DELAY = 300;
+    private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
+
 
 
 
@@ -93,6 +97,8 @@ public class ActivityDrawer extends AppCompatActivity {
         preparesearch();
         loadNavHeader();
         startIntroAnimation();
+        setupWindowAnimations();
+        showUp();
         // initializing navigation menu
         setUpNavigationView();
 
@@ -118,6 +124,15 @@ public class ActivityDrawer extends AppCompatActivity {
 
 
     }
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.LEFT);
+        slideTransition.setDuration(500);
+        getWindow().setReenterTransition(slideTransition);
+        getWindow().setExitTransition(slideTransition);
+    }
+
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
@@ -132,7 +147,7 @@ public class ActivityDrawer extends AppCompatActivity {
         toolbar.animate()
                 .translationY(0)
                 .setDuration(ANIM_DURATION_TOOLBAR)
-                .setStartDelay(1000)
+                .setStartDelay(500)
      /*   getIvLogo().animate()
                 .translationY(0)
                 .setDuration(ANIM_DURATION_TOOLBAR)
@@ -172,8 +187,6 @@ public class ActivityDrawer extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs1);
         tabLayout.setupWithViewPager(viewPager);
-
-
     }
 
     private void preparesearch(){
@@ -418,17 +431,12 @@ public class ActivityDrawer extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+    /*    //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
 
-        }
-        // user is in notifications fragment
-        // and selected 'Mark all as Read'
-        if (id == R.id.nav_item_sent) {
-            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
-        }
+        }*/
         if (id == R.id.action_search) {
             searchView.setMenuItem(item);
         }
@@ -441,6 +449,7 @@ public class ActivityDrawer extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
         adapter.addFragment(new PrimaryFragment(), "");
@@ -448,6 +457,8 @@ public class ActivityDrawer extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
     }
+
+
     private void logout() {
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(Constants.IS_LOGGED_IN,false);
@@ -460,20 +471,11 @@ public class ActivityDrawer extends AppCompatActivity {
     private void goToLogin(){
       Intent i = new Intent(this,LoginFragment.class);
         startActivity(i);
-      /*  Fragment fragment = new LoginFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_frame,fragment);
-        fragmentTransaction.commit();*/
-    }
-  /*  public void goToSellFund() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(KEY_FUND_PRODUCT, Parcels.wrap(purchasedFund));
-        openActivity(SellFundDetailActivity.class, bundle, true);
-    }
 
-    protected void openActivityAndClearHistory(Class<?> cls) {
-        openActivityAndClearHistory(cls, null);
     }
-*/
+    public void showUp() {
+        NextzyUtil.startAnimatorSet(this,tabLayout,R.animator.animator_content_show_by_slide_up,null);
+        Log.d("ssss","showup");
+    }
 
 }

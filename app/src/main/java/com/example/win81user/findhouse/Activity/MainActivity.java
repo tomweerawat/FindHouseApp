@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.TextView;
 
-import com.example.win81user.findhouse.Fragment.PrimaryFragment;
-import com.example.win81user.findhouse.Fragment.UpdatesFragment;
-import com.example.win81user.findhouse.Fragment.ShowDetailFragment;
 import com.example.win81user.findhouse.Common.BaseActivity;
+import com.example.win81user.findhouse.Fragment.PrimaryFragment;
+import com.example.win81user.findhouse.Fragment.ShowDetailFragment;
+import com.example.win81user.findhouse.Fragment.UpdatesFragment;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.Utility.NextzyUtil;
 
@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity {
                 FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction2.replace(R.id.test,fragment2);
                 fragmentTransaction2.commit();
+                /*Intent i = new Intent(this, MapsActivity.class);
+                startActivity(i);*/
                 break;
         }
 
