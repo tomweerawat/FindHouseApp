@@ -22,4 +22,6 @@
     <color name="tomcolor2">#30d1d5</color>
     <color name="transparent">#00000000</color>
     <color name="text_color">#222222</color>
+    <color name="devider">#ebebeb</color>
+    <color name="text">#223038</color>
 </resources>

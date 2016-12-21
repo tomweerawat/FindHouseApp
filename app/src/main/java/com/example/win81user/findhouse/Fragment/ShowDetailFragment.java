@@ -53,7 +53,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener,OnMapReadyCallback {
-    private TextView description,txtdetail,tv_message;
+    private TextView description,txtdetail,tv_message,fakedata;
     private ImageView img;
     private ArrayList<Property> data;
     Retrofit retrofit;
@@ -75,7 +75,7 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         initViews(view);
         startanimation(view);
         prepareservice();
-        mapinit();
+//        mapinit();
         return view;
     }
 
@@ -93,8 +93,9 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         googleMap = map;
         LatLng thailand = new LatLng(13.774642,100.581704);
         map.addMarker(new MarkerOptions().position(thailand).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(thailand));
-//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(thailand,19));
+//        map.moveCamera(CameraUpdateFactory.newLatLng(thailand));
+//        map.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(13.698948,100.537306) , 6.0f));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(thailand,19.0f));
 
     }
 
@@ -102,6 +103,7 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         frameLayout=(FrameLayout)view.findViewById(R.id.mapdetail);
         txtdetail = (TextView)view.findViewById(R.id.txtdetail);
         description = (TextView)view.findViewById(R.id.description);
+        fakedata = (TextView)view.findViewById(R.id.fakedata);
 //        img = (ImageView)view.findViewById(R.id.detailimg);
         toolbar = (Toolbar)view.findViewById(R.id.toolbardetail);
         toolbar.setTitle("Detail");

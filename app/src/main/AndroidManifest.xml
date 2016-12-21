@@ -36,9 +36,7 @@
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Fragment.LoginFragment" />
         <activity
-            android:name=".Activity.ActivityDrawer"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme" />
+            android:name=".Activity.ActivityDrawer" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

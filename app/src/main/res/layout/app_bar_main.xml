@@ -21,7 +21,16 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="#2d5d82" >
+                android:background="#2E2F3A" >
+
+               <!-- <com.example.win81user.findhouse.Utility.MyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Findhouse"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:layout_marginLeft="10dp"/>-->
               <!--  <ImageView
                     android:id="@+id/ivLogo"
                     android:layout_width="match_parent"
@@ -41,7 +50,7 @@
             android:id="@+id/tabs1"
             app:tabGravity="fill"
             app:tabMode="fixed"
-            android:background="#2d5d82"
+            android:background="#2E2F3A"
             app:tabIndicatorColor="#FFFFFF"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/white"

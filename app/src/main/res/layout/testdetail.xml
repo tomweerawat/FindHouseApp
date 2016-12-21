@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linear"
+
+        >
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slider1"
+            android:layout_width="match_parent"
+            android:layout_height="268dp" />
+        <com.daimajia.slider.library.Indicators.PagerIndicator
+            android:id="@+id/custom_indicator1"
+            android:layout_width="match_parent"
+            android:layout_height="268dp"
+            android:gravity="center"
+            />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbardd"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#00000000" />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="top"
+            android:padding="16dp">
+
+            <!--<ImageView-->
+
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/menu"-->
+            <!--android:layout_gravity="left"-->
+            <!--/>-->
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1.27">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="30dp">
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:paddingRight="5dp"
+                        android:text="AWSOME VILLA"
+                        android:background="@drawable/round"
+                        android:textSize="18dp"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/propname" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Delhi"
+                        android:background="@drawable/round"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="5dp"
+                        android:layout_marginTop="3dp"
+                        android:paddingRight="5dp"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/detail" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For Rent"
+                    android:textSize="35dp"
+                    android:textColor="#fff"
+                    android:padding="10dp"
+                    android:background="@drawable/rect1"
+                    android:elevation="7dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/rent" />
+
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="&#x20B9; 3200/Night"
+                android:textSize="22dp"
+                android:textColor="@color/text"
+                android:id="@+id/price" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Security Deposit 500 Rs"
+                android:textColor="#8d8d8d"
+                />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+
+            <com.example.win81user.findhouse.Utility.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/Contact"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact"
+                android:textColor="@color/text"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"
+                />
+
+
+            <com.example.win81user.findhouse.Utility.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/contactname"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Family Only"
+                android:textColorHint="#181737"
+                android:textColor="@color/text"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devider"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+
+
+            <com.example.win81user.findhouse.Utility.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/bathroom"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 Bathroom"
+                android:textColor="@color/text"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"/>
+
+
+            <com.example.win81user.findhouse.Utility.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/cupboards"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:hint="6 Cupboards"
+                android:textColor="@color/text"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"
+                />
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devider"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+
+            <com.example.win81user.findhouse.Utility.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/beds"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7 Beds"
+                android:textColor="@color/text"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"
+                />
+
+            <com.example.win81user.findhouse.Utility.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/tv"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:text="3 TV"
+                android:textColor="@color/text"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devider"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+
+
+
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                >
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                >
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                >
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+        <!--   <LinearLayout
+               android:layout_marginTop="13dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               >
+               <com.google.android.gms.maps.MapView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/mapbox" />
+
+
+               </LinearLayout>
+       -->
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

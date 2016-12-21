@@ -26,20 +26,40 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.win81user.findhouse.API.MyApi;
 import com.example.win81user.findhouse.Adapter.ViewPagerAdapter;
 import com.example.win81user.findhouse.Common.BaseActivity;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
 import com.example.win81user.findhouse.Fragment.PrimaryFragment;
+import com.example.win81user.findhouse.Map.MapsActivity;
+import com.example.win81user.findhouse.Model.ItemModel;
+import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.ShowFeed;
 import com.example.win81user.findhouse.Utility.NextzyUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-public class ActivityDrawer extends BaseActivity {
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> {
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
@@ -68,6 +88,10 @@ public class ActivityDrawer extends BaseActivity {
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
     private MaterialSearchView searchView;
+    Retrofit retrofit;
+    private ItemModel itemModel;
+    private ArrayList<Property> data;
+    String API = "http://192.168.25.2:8181/FindHouse/webservice/";
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
@@ -87,6 +111,10 @@ public class ActivityDrawer extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build());
 
 
         pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
@@ -99,6 +127,7 @@ public class ActivityDrawer extends BaseActivity {
         startIntroAnimation();
         setupWindowAnimations();
         showUp();
+        prepareservice();
         // initializing navigation menu
         setUpNavigationView();
 
@@ -123,6 +152,10 @@ public class ActivityDrawer extends BaseActivity {
         }
 
 
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void setupWindowAnimations() {
         // Re-enter transition is executed when returning to this activity
@@ -182,7 +215,9 @@ public class ActivityDrawer extends BaseActivity {
 
     private void initialview(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs1);
@@ -194,6 +229,8 @@ public class ActivityDrawer extends BaseActivity {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_LONG).show();
                 //Do some magic
                 return false;
             }
@@ -201,6 +238,7 @@ public class ActivityDrawer extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Do some magic
+                Toast.makeText(getApplicationContext(), "Search!", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -220,6 +258,27 @@ public class ActivityDrawer extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data1) {
+        Log.d("GGWP","GGWP");
+        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            for (int i = 0; i < data.size(); i++) {
+                Log.d("GGWP","GGWP");
+
+            }
+          /*  ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                String searchWrd = matches.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) {
+                    searchView.setQuery(searchWrd, false);
+                }
+            }*/
+
+
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data1);
+    }
     private void loadNavHeader() {
 
         txtName.setText(pref.getString(Constants.NAME,""));
@@ -314,7 +373,6 @@ public class ActivityDrawer extends BaseActivity {
         getSupportActionBar().setTitle("FindHouse");
 
     }
-
     private void selectNavMenu() {
         navigationView.getMenu().getItem(navItemIndex).setChecked(true);
     }
@@ -387,11 +445,11 @@ public class ActivityDrawer extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers();
             return;
         }
-
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
         if (shouldLoadHomeFragOnBackPress) {
@@ -403,6 +461,9 @@ public class ActivityDrawer extends BaseActivity {
                 loadHomeFragment();
                 return;
             }
+        }
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         }
 
         super.onBackPressed();
@@ -424,6 +485,7 @@ public class ActivityDrawer extends BaseActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -435,7 +497,6 @@ public class ActivityDrawer extends BaseActivity {
         if (id == R.id.action_settings) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
-
         }*/
         if (id == R.id.action_search) {
             searchView.setMenuItem(item);
@@ -453,7 +514,7 @@ public class ActivityDrawer extends BaseActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
         adapter.addFragment(new PrimaryFragment(), "");
-        adapter.addFragment(new PrimaryFragment(), "");
+        adapter.addFragment(new MapsActivity(), "");
         viewPager.setAdapter(adapter);
 
     }
@@ -477,5 +538,49 @@ public class ActivityDrawer extends BaseActivity {
         NextzyUtil.startAnimatorSet(this,tabLayout,R.animator.animator_content_show_by_slide_up,null);
         Log.d("ssss","showup");
     }
+    private void prepareservice() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(API)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        Log.e("retrofit2", "connected" + API);
+
+
+        apiCall(retrofit);
+
+
+    }
+
+    private void apiCall(Retrofit retrofit) {
+        MyApi myApi = retrofit.create(MyApi.class);
+        Call<ItemModel> call = myApi.getShout();
+        call.enqueue(this);
+        Log.e("apiCall", "Success Call");
+    }
+
+    @Override
+    public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+        itemModel = response.body();
+        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+        Log.d("KUYYYYYYYYY","Kuy"+data);
+       /* onActivityResult();
+        for (int i = 0; i < data.size(); i++) {
+
+
+        }*/
+
+    }
+
+    @Override
+    public void onFailure(Call<ItemModel> call, Throwable t) {
+
+    }
 }
