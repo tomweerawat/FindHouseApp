@@ -19,8 +19,9 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 
-import com.example.win81user.findhouse.API.RetrofitMaps;
-import com.example.win81user.findhouse.POJO.Example;
+import com.example.win81user.findhouse.API.MyApi;
+import com.example.win81user.findhouse.Model.ItemModel;
+import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -36,18 +37,27 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Created by Win81 User on 24/12/2559.
+ */
 
-public class MapsActivity extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
+public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,Callback<ItemModel>,
         LocationListener {
-
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Location mLocation;
     LatLng latlng;
@@ -58,6 +68,11 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    private ItemModel itemModel;
+    private ArrayList<Property> data;
+    Retrofit retrofit;
+    String API = "http://192.168.25.2:8181/FindHouse/webservice/";
+
 
     public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
@@ -88,25 +103,12 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         btnRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                build_retrofit_and_get_response("restaurant");
+//                build_retrofit_and_get_response("property");
+                prepareservice();
             }
         });
 
-        Button btnHospital = (Button) view.findViewById(R.id.btnHospital);
-        btnHospital.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                build_retrofit_and_get_response("hospital");
-            }
-        });
 
-        Button btnSchool = (Button) view.findViewById(R.id.btnSchool);
-        btnSchool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                build_retrofit_and_get_response("school");
-            }
-        });
     }
     @Override
     public void onResume() {
@@ -212,10 +214,90 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         Log.d("onLocationChanged", "Exit");
 
     }
+
+    private void prepareservice() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(API)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        Log.e("retrofit2", "connected" + API);
+
+
+        apiCall(retrofit);
+
+
+    }
+
+    private void apiCall(Retrofit retrofit) {
+        MyApi myApi = retrofit.create(MyApi.class);
+        Call<ItemModel> call = myApi.getShout();
+        call.enqueue(this);
+        Log.e("apiCall", "Success Call");
+    }
+
+    @Override
+    public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+        itemModel = response.body();
+        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+        Log.d("KUYYYYYYYYY","Kuy"+data);
+        try {
+            mMap.clear();
+            for (int i = 0; i < data.size(); i++) {
+                Double lat = data.get(i).getLat();
+                Double lng = data.get(i).getLongtitude();
+                MarkerOptions markerOptions = new MarkerOptions();
+                LatLng latLng = new LatLng(lat, lng);
+
+                markerOptions.position(latLng);
+
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+
+//                Marker m = mMap.addMarker(markerOptions);
+                Marker m = mMap.addMarker(markerOptions
+                        .title(data.get(i).getContact())
+                        .snippet(data.get(i).getContact()));
+            }
+
+        }catch (Exception e){
+            Log.d("onResponse", "There is an error");
+            e.printStackTrace();
+        }
+       /* onActivityResult();
+        for (int i = 0; i < data.size(); i++) {
+        }*/
+
+    }
+
+    @Override
+    public void onFailure(Call<ItemModel> call, Throwable t) {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
     private void build_retrofit_and_get_response(String type) {
 
-        String url = "https://maps.googleapis.com/maps/";
-
+//        String url = "https://maps.googleapis.com/maps/";
+        String url = "http://192.168.25.2:8181/FindHouse/webservice/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -225,9 +307,11 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
 
         Call<Example> call = service.getNearbyPlaces(type, latitude + "," + longitude, PROXIMITY_RADIUS);
 
-        call.enqueue(new Callback<Example>() {
+        call.enqueue(new Callback<ItemModel>() {
             @Override
-            public void onResponse(Call<Example> call, Response<Example> response) {
+            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+                itemModel = response.body();
+                data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
                 try {
                     mMap.clear();
                     // This loop will go through all the results and add marker on each location.
@@ -268,6 +352,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         });
 
     }
+*/
 
     /*public void latlong() throws JSONException {
 

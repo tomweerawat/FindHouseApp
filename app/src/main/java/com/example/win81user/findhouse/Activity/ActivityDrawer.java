@@ -36,7 +36,7 @@ import com.example.win81user.findhouse.Common.BaseActivity;
 import com.example.win81user.findhouse.Constants.Constants;
 import com.example.win81user.findhouse.Fragment.LoginFragment;
 import com.example.win81user.findhouse.Fragment.PrimaryFragment;
-import com.example.win81user.findhouse.Map.MapsActivity;
+import com.example.win81user.findhouse.Map.TestMap;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -514,7 +514,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
         adapter.addFragment(new PrimaryFragment(), "");
-        adapter.addFragment(new MapsActivity(), "");
+        adapter.addFragment(new TestMap(), "");
         viewPager.setAdapter(adapter);
 
     }

@@ -51,26 +51,30 @@ public class Property {
     private String Image5;
     @Expose
     @SerializedName("lat")
-    private String lat;
-    @Expose
-    @SerializedName("long")
-    private String longtitude;
+    private Double lat;
 
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLongtitude() {
+    public Double getLongtitude() {
         return longtitude;
     }
 
-    public void setLongtitude(String longtitude) {
+    public void setLongtitude(Double longtitude) {
         this.longtitude = longtitude;
     }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    @Expose
+    @SerializedName("long")
+    private Double longtitude;
+
+
+
 
 
 

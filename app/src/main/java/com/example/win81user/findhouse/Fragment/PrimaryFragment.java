@@ -3,6 +3,7 @@ package com.example.win81user.findhouse.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.example.win81user.findhouse.API.MyApi;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.TestFragment;
 import com.example.win81user.findhouse.Utility.ClickListener;
 import com.example.win81user.findhouse.Utility.LoadingDialogFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -172,6 +174,22 @@ public class PrimaryFragment extends Fragment implements Callback<ItemModel>,
             description.setText(data.get(i).getDescription() + "\n" + data.get(i).getContact());
             price.setText(data.get(i).getPrice());
             contactname.setText(data.get(i).getContact()+"\n"+data.get(i).getLat()+data.get(i).getLongtitude());
+            contactname.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment newFragment = new TestFragment();
+                    // consider using Java coding conventions (upper first char class names!!!)
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack
+                    transaction.replace(R.id.test, newFragment);
+                    transaction.addToBackStack(null);
+
+                    // Commit the transaction
+                    transaction.commit();
+                }
+            });
             String srtUrl = "";
             if (i == 0) {
                 srtUrl = data.get(0).getImage();
