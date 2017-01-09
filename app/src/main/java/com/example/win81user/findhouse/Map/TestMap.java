@@ -1,7 +1,10 @@
 package com.example.win81user.findhouse.Map;
 
 import android.Manifest;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +29,10 @@ import com.example.win81user.findhouse.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +41,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -56,7 +65,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,Callback<ItemModel>,
+        GoogleApiClient.OnConnectionFailedListener, Callback<ItemModel>, ResultCallback<Status>,
         LocationListener {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Location mLocation;
@@ -67,24 +76,27 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    LatLng latLng;
     LocationRequest mLocationRequest;
     private ItemModel itemModel;
     private ArrayList<Property> data;
+    private static final String Geofence_id = "Geofence_id";
     Retrofit retrofit;
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
+    private static final long GEO_DURATION = 60 * 60 * 1000;
+    private static final String GEOFENCE_REQ_ID = "My Geofence";
+    private static final float GEOFENCE_RADIUS = 500.0f; // in meters
+    Geofence geofence;
+    private Marker geoFenceMarker;
+    private PendingIntent geoFencePendingIntent;
+    private final int GEOFENCE_REQ_CODE = 0;
+    ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
 
 
     public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
         return fragment;
     }
- /*   @BindView(R.id.btnRestaurant)
-    Button btnRestaurant;
-    @BindView(R.id.btnHospital)
-    Button btnHospital;
-    @BindView(R.id.btnSchool)
-    Button btnSchool;
-*/
 
     @Nullable
     @Override
@@ -98,7 +110,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         return view;
     }
 
-    private void initview(View view){
+    private void initview(View view) {
         Button btnRestaurant = (Button) view.findViewById(R.id.btnRestaurant);
         btnRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +122,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
 
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -137,6 +150,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         }
 
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
@@ -145,11 +159,12 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
                 .build();
         mGoogleApiClient.connect();
     }
+
     private boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int result = googleAPI.isGooglePlayServicesAvailable(getContext());
-        if(result != ConnectionResult.SUCCESS) {
-            if(googleAPI.isUserResolvableError(result)) {
+        if (result != ConnectionResult.SUCCESS) {
+            if (googleAPI.isUserResolvableError(result)) {
                 googleAPI.getErrorDialog(getActivity(), result,
                         0).show();
             }
@@ -207,7 +222,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         //move map camera
         animateMarker(mCurrLocationMarker, location);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 
@@ -247,34 +262,130 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
         itemModel = response.body();
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-        Log.d("KUYYYYYYYYY","Kuy"+data);
+
+        Log.d("KUYYYYYYYYY", "Kuy" + data);
         try {
             mMap.clear();
             for (int i = 0; i < data.size(); i++) {
                 Double lat = data.get(i).getLat();
                 Double lng = data.get(i).getLongtitude();
                 MarkerOptions markerOptions = new MarkerOptions();
-                LatLng latLng = new LatLng(lat, lng);
-
+                latLng = new LatLng(lat, lng);
                 markerOptions.position(latLng);
-
+                Log.e("tomtom","tomtom"+latLng);
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
-
-//                Marker m = mMap.addMarker(markerOptions);
-                Marker m = mMap.addMarker(markerOptions
+                geoFenceMarker = mMap
+                        .addMarker(markerOptions
                         .title(data.get(i).getContact())
                         .snippet(data.get(i).getContact()));
+                startGeofence();
             }
 
         }catch (Exception e){
             Log.d("onResponse", "There is an error");
             e.printStackTrace();
         }
-       /* onActivityResult();
-        for (int i = 0; i < data.size(); i++) {
-        }*/
 
     }
+    private void create(){
+        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+        for (int i = 0; i < data.size(); i++) {
+            Geofence geofence = new Geofence.Builder()
+                    .setRequestId(GEOFENCE_REQ_ID)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .setCircularRegion(data.get(i).getLat(), data.get(i).getLongtitude(), GEOFENCE_RADIUS)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .build();
+            geofenceList.add(geofence);
+            Log.e("test","test"+geofence);
+        }
+    }
+    private PendingIntent createGeofencePendingIntent() {
+        Log.d("test", "createGeofencePendingIntent");
+        if ( geoFencePendingIntent != null )
+            return geoFencePendingIntent;
+
+        Intent intent = new Intent( getActivity(), GeofenceTrasitionService.class);
+        return PendingIntent.getService(
+                getContext(), GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+    }
+
+    private void startGeofence() {
+        Log.i("startGeofence", "startGeofence()");
+        if( geoFenceMarker != null ) {
+            Log.e("ggwp","ggwp"+geoFenceMarker);
+            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
+//            create();
+            GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
+            addGeofence( geofenceRequest );
+        } else {
+            Log.e("startGeofence", "Geofence marker is null");
+        }
+    }
+
+    // Create a Geofence Request
+    private GeofencingRequest createGeofenceRequest( Geofence geofence ) {
+        Log.d("createGeofenceRequest", "createGeofenceRequest");
+        return new GeofencingRequest.Builder()
+                .setInitialTrigger( GeofencingRequest.INITIAL_TRIGGER_ENTER )
+                .addGeofence( geofence )
+                .build();
+    }
+    //addgeofence
+    private void addGeofence(GeofencingRequest request) {
+        Log.d("addGeofence", "addGeofence");
+        if (checkPermission())
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    request,
+                    createGeofencePendingIntent()
+            ).setResultCallback((ResultCallback<? super Status>) this);
+    }
+    @Override
+    public void onResult(@NonNull Status status) {
+        Log.i("", "onResult: " + status);
+        if ( status.isSuccess() ) {
+
+            drawGeofence();
+        } else {
+            // inform about fail
+        }
+
+
+    }
+    private Circle geoFenceLimits;
+    private void drawGeofence() {
+        Log.d("", "drawGeofence()");
+
+        if ( geoFenceLimits != null )
+            geoFenceLimits.remove();
+
+        CircleOptions circleOptions = new CircleOptions()
+                .center( geoFenceMarker.getPosition())
+                .strokeColor(Color.argb(50, 70,70,70))
+                .fillColor( Color.argb(100, 150,150,150) )
+                .radius( GEOFENCE_RADIUS );
+        geoFenceLimits = mMap.addCircle( circleOptions );
+    }
+
+    // Create a Geofence
+    private Geofence createGeofence( LatLng latLng, float radius ) {
+        Log.d("createGeofence", "createGeofence"+latLng);
+        return new Geofence.Builder()
+                .setRequestId(GEOFENCE_REQ_ID)
+                .setCircularRegion( latLng.latitude, latLng.longitude, radius)
+                .setExpirationDuration( GEO_DURATION )
+                .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
+                        | Geofence.GEOFENCE_TRANSITION_EXIT )
+                .build();
+    }
+    private boolean checkPermission() {
+        Log.d("checkPermission", "checkPermission()");
+        // Ask for permission if it wasn't granted yet
+        return (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED );
+    }
+
 
     @Override
     public void onFailure(Call<ItemModel> call, Throwable t) {

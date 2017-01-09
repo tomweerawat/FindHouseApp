@@ -65,4 +65,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.google.android.gms:play-services-maps:10.0.0'
+    compile 'io.nlopez.smartlocation:library:3.2.9'
 }
