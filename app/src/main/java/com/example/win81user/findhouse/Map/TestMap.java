@@ -287,7 +287,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         }
 
     }
-    private void create(){
+ /*   private void create(){
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
         for (int i = 0; i < data.size(); i++) {
             Geofence geofence = new Geofence.Builder()
@@ -299,7 +299,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
             geofenceList.add(geofence);
             Log.e("test","test"+geofence);
         }
-    }
+    }*/
     private PendingIntent createGeofencePendingIntent() {
         Log.d("test", "createGeofencePendingIntent");
         if ( geoFencePendingIntent != null )
@@ -314,7 +314,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         Log.i("startGeofence", "startGeofence()");
         if( geoFenceMarker != null ) {
             Log.e("ggwp","ggwp"+geoFenceMarker);
-            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
+            Geofence geofence = createGeofence(latLng, GEOFENCE_RADIUS );
 //            create();
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
             addGeofence( geofenceRequest );
@@ -359,13 +359,23 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
 
         if ( geoFenceLimits != null )
             geoFenceLimits.remove();
+        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+        for (int i = 0; i < data.size(); i++) {
+            Double lat = data.get(i).getLat();
+            Double lng = data.get(i).getLongtitude();
+            MarkerOptions markerOptions = new MarkerOptions();
+            latLng = new LatLng(lat, lng);
+            markerOptions.position(latLng);
+            CircleOptions circleOptions = new CircleOptions()
+                    .center(latLng)
+                    .strokeColor(Color.argb(50, 70,70,70))
+                    .fillColor( Color.argb(100, 150,150,150) )
+                    .radius( GEOFENCE_RADIUS );
+            geoFenceLimits = mMap.addCircle( circleOptions );
 
-        CircleOptions circleOptions = new CircleOptions()
-                .center( geoFenceMarker.getPosition())
-                .strokeColor(Color.argb(50, 70,70,70))
-                .fillColor( Color.argb(100, 150,150,150) )
-                .radius( GEOFENCE_RADIUS );
-        geoFenceLimits = mMap.addCircle( circleOptions );
+        }
+
+
     }
 
     // Create a Geofence
@@ -464,29 +474,6 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
 
     }
 */
-
-    /*public void latlong() throws JSONException {
-
-        JSONArray jsonArrayData = jsonData.getJSONArray("rows");
-
-        for (int i = 0; i <  jsonArrayData.length(); i++) {
-
-            JSONObject c = jsonArrayData.getJSONObject(i);
-
-            JSONObject tmpObject = c.getJSONObject("value");
-            String latString = tmpObject.getString("latitude");
-            String longString = tmpObject.getString("longitude");
-
-            double lat = Double.parseDouble(latString);
-            double lng = Double.parseDouble(longString);
-
-            System.out.println("lat: " + lat + " // long: " + lng);
-
-            MarkerOptions place = new MarkerOptions().position(new LatLng(lat ,lng)).title("Hello Maps");
-            googleMap.addMarker(place);
-
-        }
-    }*/
     public void animateMarker(final Marker marker, final Location location) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
