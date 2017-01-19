@@ -1,26 +1,34 @@
 package com.example.win81user.findhouse.Adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.win81user.findhouse.Utility.ClickListener;
+import com.example.win81user.findhouse.CustomFilter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.Utility.ClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-    private ArrayList<Property> properties;
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> implements Filterable {
+    public ArrayList<Property> properties;
+    private ArrayList<Property> filterList;
     private ItemModel itemModel;
     private static ClickListener clicklistener = null;
+    CustomFilter filter;
+    Context c;
 
-    public FeedAdapter(ArrayList<Property> properties) {
+    public FeedAdapter(Context cx,ArrayList<Property> properties) {
+        this.c= cx;
         this.properties = properties;
     }
 
@@ -44,6 +52,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return properties.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter==null)
+        {
+            filter=new CustomFilter(filterList,this);
+        }
+
+        return filter;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

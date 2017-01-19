@@ -1,5 +1,6 @@
 package com.example.win81user.findhouse;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     private RecyclerView recyclerView;
     private FeedAdapter dataAdapter;
     private ArrayList<Property> data;
+    Context context;
     //http://192.168.25.2:8181/weerawat/ https://weerawatcomsci.github.io/feed/
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
 
@@ -108,7 +110,7 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
 
         }
         Log.e("data",itemModel.getProperty()+"");
-        dataAdapter = new FeedAdapter(data);
+        dataAdapter = new FeedAdapter(context,data);
         recyclerView.setAdapter(dataAdapter);
         dataAdapter.setClickListener(this);
     }

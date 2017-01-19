@@ -36,6 +36,7 @@
         <activity android:name=".Activity.Activity1" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Fragment.LoginFragment" />
+        <activity android:name=".Map.RecieveLatLng"/>
         <activity
             android:name=".Activity.ActivityDrawer" />
         <activity android:name=".Map.Testfence"/>

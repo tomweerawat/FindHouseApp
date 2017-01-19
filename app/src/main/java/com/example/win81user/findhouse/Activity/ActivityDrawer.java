@@ -8,13 +8,18 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.util.Log;
@@ -26,7 +31,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -122,7 +126,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
 
         initdrawer();
         initialview();
-        preparesearch();
+//        preparesearch();
         loadNavHeader();
         startIntroAnimation();
         setupWindowAnimations();
@@ -224,13 +228,33 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void preparesearch(){
+    private void preparesearch(ArrayList<Property> dataa){
+        Log.e("dataa","dataa"+dataa);
+        String[] errorSoon = new String[dataa.size()];
+
+        RecyclerView rv= (RecyclerView) findViewById(R.id.myRecycler);
+        for(int i=0;i<dataa.size();i++){
+            errorSoon[i] = dataa.get(i).getPropertyname();
+        }
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setVoiceSearch(false);
+        searchView.setEllipsize(true);
+        searchView.setSuggestions(errorSoon);
+        //SET ITS PROPETRIES
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setItemAnimator(new DefaultItemAnimator());
+
+        //ADAPTER
+//        final FeedAdapter adapter=new FeedAdapter(this,getPlayers());
+//        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+    /*    final FeedAdapter adapter =new FeedAdapter(this,getSearchProperty(dataa));
+        rv.setAdapter(adapter);*/
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.containerq), "Query: " + query, Snackbar.LENGTH_LONG)
+                        .show();
                 //Do some magic
                 return false;
             }
@@ -238,7 +262,10 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Do some magic
-                Toast.makeText(getApplicationContext(), "Search!", Toast.LENGTH_LONG).show();
+
+
+//                Toast.makeText(getApplicationContext(), "Search!", Toast.LENGTH_LONG).show();
+
                 return false;
             }
         });
@@ -258,12 +285,34 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
 
     }
 
+/*
+    private ArrayList<Property> getSearchProperty(ArrayList<Property> dataaa) {
+
+        ArrayList<Property> property=new ArrayList<>();
+        property=dataaa;
+
+        Log.e("zxc","zxc"+property);
+        Property p=new Property();
+        p.setPropertyname("Tom Weerawat");
+        property.add(p);
+
+        p=new Property();
+        p.setPropertyname(data.get(1).getPropertyname());
+        property.add(p);
+
+
+        return property;
+    }
+*/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data1) {
-        Log.d("GGWP","GGWP");
+        Log.d("asdf","asdf");
+
         if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data1.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             for (int i = 0; i < data.size(); i++) {
-                Log.d("GGWP","GGWP");
+                Log.d("asdf","asdf");
 
             }
           /*  ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -302,10 +351,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
 //        navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
     }
 
-    /***
-     * Returns respected fragment that user
-     * selected from navigation menu
-     */
+
     private void loadHomeFragment() {
         // selecting appropriate nav menu item
         selectNavMenu();
@@ -317,15 +363,9 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
             drawer.closeDrawers();
 
-            // show or hide the fab button
-//            toggleFab();
             return;
         }
 
-        // Sometimes, when fragment has huge data, screen seems hanging
-        // when switching between navigation menus
-        // So using runnable, the fragment is loaded with cross fade effect
-        // This effect can be seen in GMail app
 /*        Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
@@ -339,9 +379,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
             }
         };
 
-        // If mPendingRunnable is not null, then add to the message queue
-        if (mPendingRunnable != null) {
-            mHandler.post(mPendingRunnable);
+
         }*/
         // show or hide the fab button
 //        toggleFab();
@@ -488,23 +526,11 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-    /*    //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
-            return true;
-        }*/
+        int id = item.getItemId();
         if (id == R.id.action_search) {
             searchView.setMenuItem(item);
         }
-
-        // user is in notifications fragment
-        // and selected 'Clear All'
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -571,11 +597,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         itemModel = response.body();
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
         Log.d("KUYYYYYYYYY","Kuy"+data);
-       /* onActivityResult();
-        for (int i = 0; i < data.size(); i++) {
-
-
-        }*/
+        preparesearch(data);
 
     }
 

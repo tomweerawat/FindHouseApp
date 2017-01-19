@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    >
+    android:id="@+id/containerq">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -66,6 +66,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myRecycler"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/mSearch"
+            android:layout_height="match_parent"
+            class="android.support.v7.widget.RecyclerView" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"

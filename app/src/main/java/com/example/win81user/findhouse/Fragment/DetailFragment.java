@@ -48,8 +48,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PrimaryFragment extends Fragment implements Callback<ItemModel>,
-        ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+/**
+ * Created by Win81 User on 13/1/2560.
+ */
+
+public class DetailFragment extends Fragment implements Callback<ItemModel>,
+        ClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private TextView description, txtdetail, tv_message, fakedata,rent,price,contactname;
     private ImageView img;
     private ArrayList<Property> data;
@@ -76,36 +80,16 @@ public class PrimaryFragment extends Fragment implements Callback<ItemModel>,
         initViews(view);
         startanimation(view);
         prepareservice();
-//        mapinit();
         return view;
     }
-/*    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mapView = (MapView) view.findViewById(R.id.mapbox);
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume();
-        mapView.getMapAsync(this);
-    }
-    @Override
-    public void onMapReady(GoogleMap map) {
-        googleMap = map;
-        LatLng thailand = new LatLng(13.774642,100.581704);
-        map.addMarker(new MarkerOptions().position(thailand).title("Marker in Sydney"));
-//        map.moveCamera(CameraUpdateFactory.newLatLng(thailand));
-//        map.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(13.698948,100.537306) , 6.0f));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(thailand,6.0f));
 
-    }*/
 
     private void initViews(View view) {
-//        frameLayout=(FrameLayout)view.findViewById(R.id.mapdetail);
         txtdetail = (TextView) view.findViewById(R.id.propname);
         price = (TextView) view.findViewById(R.id.price);
         description = (TextView) view.findViewById(R.id.detail);
         contactname = (TextView) view.findViewById(R.id.contactname);
         rent = (TextView) view.findViewById(R.id.rent);
-//        img = (ImageView)view.findViewById(R.id.detailimg);
         toolbar = (Toolbar) view.findViewById(R.id.toolbardd);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_black_36dp);
         toolbar.setOnClickListener(new View.OnClickListener() {
@@ -178,10 +162,10 @@ public class PrimaryFragment extends Fragment implements Callback<ItemModel>,
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
         for (int i = 0; i < data.size(); i++) {
             TextSliderView textSliderView = new TextSliderView(this.getContext());
-            txtdetail.setText(data.get(i).getPropertyname());
-            description.setText(data.get(i).getDescription() + "\n" + data.get(i).getContact());
+            txtdetail.setText(data.get(0).getPropertyname());
+            description.setText(data.get(0).getDescription() + "\n" + data.get(0).getContact());
             price.setText(data.get(i).getPrice());
-            contactname.setText(data.get(i).getContact()+"\n"+data.get(i).getLat()+data.get(i).getLongtitude());
+            contactname.setText(data.get(0).getContact()+"\n"+data.get(0).getLat()+data.get(0).getLongtitude());
             contactname.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -220,16 +204,12 @@ public class PrimaryFragment extends Fragment implements Callback<ItemModel>,
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
-            //add your extra information
+
             textSliderView.bundle(new Bundle());
 
             mDemoSlider.addSlider(textSliderView);
 
-           /* Glide.with(this).load(data.get(i).getImage3())
-                    .crossFade()
-                    .thumbnail(0.5f)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(img);*/
+
 
         }
 
