@@ -92,7 +92,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
             }
         });
 
-        Button btnHospital = (Button) view.findViewById(R.id.btnHospital);
+ /*       Button btnHospital = (Button) view.findViewById(R.id.btnHospital);
         btnHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +106,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
             public void onClick(View v) {
                 build_retrofit_and_get_response("school");
             }
-        });
+        });*/
     }
     @Override
     public void onResume() {

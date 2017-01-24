@@ -18,10 +18,10 @@ import com.example.win81user.findhouse.Utility.ClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> implements Filterable {
     public ArrayList<Property> properties;
-    private ArrayList<Property> filterList;
     private ItemModel itemModel;
     private static ClickListener clicklistener = null;
     CustomFilter filter;
@@ -58,7 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> im
     public Filter getFilter() {
         if(filter==null)
         {
-            filter=new CustomFilter(filterList,this);
+            filter=new CustomFilter(properties,this);
         }
 
         return filter;
@@ -89,6 +89,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> im
 
         }
 
+    }
+    public void setFilter(List<Property> countryModels){
+        properties = new ArrayList<>();
+        properties.addAll(countryModels);
+        notifyDataSetChanged();
     }
 
 }

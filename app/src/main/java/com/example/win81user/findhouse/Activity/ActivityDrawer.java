@@ -8,23 +8,17 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.RecognizerIntent;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -71,7 +65,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
     private TabLayout tabLayout;
-//    private FloatingActionButton fab;
+    //    private FloatingActionButton fab;
     public static ViewPager viewPager;
     public static int int_items = 3 ;
     private int[] tabIcons = {
@@ -116,9 +110,9 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Roboto-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build());
+                .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
 
 
         pref = getSharedPreferences("userdata", Context.MODE_PRIVATE);
@@ -228,27 +222,25 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void preparesearch(ArrayList<Property> dataa){
+/*    private void preparesearch(ArrayList<Property> dataa){
         Log.e("dataa","dataa"+dataa);
-        String[] errorSoon = new String[dataa.size()];
+        String[] getsearchprop = new String[dataa.size()];
 
-        RecyclerView rv= (RecyclerView) findViewById(R.id.myRecycler);
+        RecyclerView rv= (RecyclerView) findViewById(R.id.recyclerView);
         for(int i=0;i<dataa.size();i++){
-            errorSoon[i] = dataa.get(i).getPropertyname();
+            getsearchprop[i] = dataa.get(i).getPropertyname();
         }
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(false);
         searchView.setEllipsize(true);
-        searchView.setSuggestions(errorSoon);
+        searchView.setSuggestions(getsearchprop);
         //SET ITS PROPETRIES
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setItemAnimator(new DefaultItemAnimator());
 
         //ADAPTER
-//        final FeedAdapter adapter=new FeedAdapter(this,getPlayers());
-//        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-    /*    final FeedAdapter adapter =new FeedAdapter(this,getSearchProperty(dataa));
-        rv.setAdapter(adapter);*/
+        final FeedAdapter adapter =new FeedAdapter(this,dataa);
+        rv.setAdapter(adapter);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -256,6 +248,8 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
                 Snackbar.make(findViewById(R.id.containerq), "Query: " + query, Snackbar.LENGTH_LONG)
                         .show();
                 //Do some magic
+             *//*   Intent i = new Intent(ActivityDrawer.this, MapsActivity.class);
+                startActivity(i);*//*
                 return false;
             }
 
@@ -265,6 +259,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
 
 
 //                Toast.makeText(getApplicationContext(), "Search!", Toast.LENGTH_LONG).show();
+                adapter.getFilter().filter(newText);
 
                 return false;
             }
@@ -283,51 +278,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         });
 
 
-    }
-
-/*
-    private ArrayList<Property> getSearchProperty(ArrayList<Property> dataaa) {
-
-        ArrayList<Property> property=new ArrayList<>();
-        property=dataaa;
-
-        Log.e("zxc","zxc"+property);
-        Property p=new Property();
-        p.setPropertyname("Tom Weerawat");
-        property.add(p);
-
-        p=new Property();
-        p.setPropertyname(data.get(1).getPropertyname());
-        property.add(p);
-
-
-        return property;
-    }
-*/
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data1) {
-        Log.d("asdf","asdf");
-
-        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data1.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            for (int i = 0; i < data.size(); i++) {
-                Log.d("asdf","asdf");
-
-            }
-          /*  ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null && matches.size() > 0) {
-                String searchWrd = matches.get(0);
-                if (!TextUtils.isEmpty(searchWrd)) {
-                    searchView.setQuery(searchWrd, false);
-                }
-            }*/
-
-
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data1);
-    }
+    }*/
     private void loadNavHeader() {
 
         txtName.setText(pref.getString(Constants.NAME,""));
@@ -398,11 +349,11 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
                 PrimaryFragment homeFragment = new PrimaryFragment();
                 return homeFragment;
             case 1:
-            // photos
+                // photos
 //                SocialFragment photosFragment = new SocialFragment();
 //                return photosFragment;
 
-                default:
+            default:
                 return null;
         }
     }
@@ -429,7 +380,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
                     case R.id.nav_item_inbox:
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
-                     break;
+                        break;
                     case R.id.nav_item_sent:
                         startActivity(new Intent(ActivityDrawer.this, MainActivity.class));
 
@@ -507,7 +458,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         super.onBackPressed();
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
@@ -524,15 +475,17 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     }
 
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
         if (id == R.id.action_search) {
-            searchView.setMenuItem(item);
+//            searchView.setMenuItem(item);
         }
         return super.onOptionsItemSelected(item);
     }
+*/
 
 
     private void setupViewPager(ViewPager viewPager) {
@@ -556,7 +509,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         goToLogin();
     }
     private void goToLogin(){
-      Intent i = new Intent(this,LoginFragment.class);
+        Intent i = new Intent(this,LoginFragment.class);
         startActivity(i);
 
     }
@@ -597,7 +550,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         itemModel = response.body();
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
         Log.d("KUYYYYYYYYY","Kuy"+data);
-        preparesearch(data);
+//        preparesearch(data);
 
     }
 
