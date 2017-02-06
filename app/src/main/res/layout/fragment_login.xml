@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/uikitbgclear">
+    android:background="#000000">
+
+    <!--android:background="@drawable/uikitbgclear"-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/transparent"
+
         android:scaleType="fitXY"
         />
-
+   <!-- android:src="@drawable/transparent"-->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="100dp"

@@ -55,7 +55,7 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     Context context;
     //http://192.168.25.2:8181/weerawat/ https://weerawatcomsci.github.io/feed/
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
-
+   /* String API = "http://10.255.28.46:8181/FindHouse/webservice/";*/
     public static ShowFeed createInstance(int itemsCount) {
         ShowFeed partThreeFragment = new ShowFeed();
         Bundle bundle = new Bundle();
