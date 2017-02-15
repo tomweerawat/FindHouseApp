@@ -1,3 +1,4 @@
+/*
 package com.example.win81user.findhouse.Map;
 
 import android.Manifest;
@@ -63,13 +64,15 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         MapsActivity fragment = new MapsActivity();
         return fragment;
     }
- /*   @BindView(R.id.btnRestaurant)
+ */
+/*   @BindView(R.id.btnRestaurant)
     Button btnRestaurant;
     @BindView(R.id.btnHospital)
     Button btnHospital;
     @BindView(R.id.btnSchool)
     Button btnSchool;
-*/
+*//*
+
 
     @Nullable
     @Override
@@ -92,7 +95,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
             }
         });
 
- /*       Button btnHospital = (Button) view.findViewById(R.id.btnHospital);
+ */
+/*       Button btnHospital = (Button) view.findViewById(R.id.btnHospital);
         btnHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +110,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
             public void onClick(View v) {
                 build_retrofit_and_get_response("school");
             }
-        });*/
+        });*//*
+
     }
     @Override
     public void onResume() {
@@ -269,7 +274,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
 
     }
 
-    /*public void latlong() throws JSONException {
+    */
+/*public void latlong() throws JSONException {
 
         JSONArray jsonArrayData = jsonData.getJSONArray("rows");
 
@@ -290,7 +296,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
             googleMap.addMarker(place);
 
         }
-    }*/
+    }*//*
+
     public void animateMarker(final Marker marker, final Location location) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
@@ -326,3 +333,4 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         });
     }
 }
+*/

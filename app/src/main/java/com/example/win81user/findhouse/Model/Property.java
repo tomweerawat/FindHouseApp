@@ -52,13 +52,17 @@ public class Property {
     @Expose
     @SerializedName("lat")
     private Double lat;
+    @Expose
+    @SerializedName("lng")
+    private Double lng;
+
 
     public Double getLongtitude() {
-        return longtitude;
+        return lng;
     }
 
     public void setLongtitude(Double longtitude) {
-        this.longtitude = longtitude;
+        this.lng = longtitude;
     }
 
     public Double getLat() {
@@ -69,9 +73,6 @@ public class Property {
         this.lat = lat;
     }
 
-    @Expose
-    @SerializedName("long")
-    private Double longtitude;
 
 
 

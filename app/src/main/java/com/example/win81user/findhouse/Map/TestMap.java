@@ -22,7 +22,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 
-import com.example.win81user.findhouse.API.MyApi;
+import com.example.win81user.findhouse.API.RetrofitMaps;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -93,10 +93,10 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
 
 
-    public static MapsActivity newInstance() {
+  /*  public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
         return fragment;
-    }
+    }*/
 
     @Nullable
     @Override
@@ -211,6 +211,8 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
+        Log.e("Currentp","Currrentp"+latLng);
+//        Startsearchnearbysearch(latLng);
 
         // Adding colour to the marker
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
@@ -227,6 +229,15 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 
         Log.d("onLocationChanged", "Exit");
+
+    }
+
+    private void Startsearchnearbysearch(LatLng latLng) {
+        Log.e("currentnear","currentnear"+latLng);
+
+        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
+       /* Call<Example> call = service.getNearbyPlaces(latitude + "," + longitude, PROXIMITY_RADIUS);*/
+
 
     }
 
@@ -252,8 +263,10 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     }
 
     private void apiCall(Retrofit retrofit) {
-        MyApi myApi = retrofit.create(MyApi.class);
-        Call<ItemModel> call = myApi.getShout();
+     /*   MyApi myApi = retrofit.create(MyApi.class);
+        Call<ItemModel> call = myApi.getShout();*/
+        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
+        Call<ItemModel> call = service.getNearbyPlaces(latitude + "," + longitude, PROXIMITY_RADIUS);
         call.enqueue(this);
         Log.e("apiCall", "Success Call");
     }
@@ -261,6 +274,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     @Override
     public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
         itemModel = response.body();
+        Log.e("itemmm","itemm"+itemModel);
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
 
         Log.d("KUYYYYYYYYY", "Kuy" + data);
@@ -278,9 +292,9 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
                         .addMarker(markerOptions
                         .title(data.get(i).getContact())
                         .snippet(data.get(i).getContact()));
-                startGeofence();
-            }
 
+            }
+            startGeofence(latLng);
         }catch (Exception e){
             Log.d("onResponse", "There is an error");
             e.printStackTrace();
@@ -310,11 +324,11 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
                 getContext(), GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
-    private void startGeofence() {
+    private void startGeofence(LatLng geofencelatlng) {
         Log.i("startGeofence", "startGeofence()");
         if( geoFenceMarker != null ) {
             Log.e("ggwp","ggwp"+geoFenceMarker);
-            Geofence geofence = createGeofence(latLng, GEOFENCE_RADIUS );
+            Geofence geofence = createGeofence(geofencelatlng, GEOFENCE_RADIUS );
 //            create();
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
             addGeofence( geofenceRequest );

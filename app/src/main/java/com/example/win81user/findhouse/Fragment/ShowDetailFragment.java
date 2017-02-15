@@ -3,7 +3,6 @@ package com.example.win81user.findhouse.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.win81user.findhouse.API.MyApi;
-import com.example.win81user.findhouse.Map.MapsActivity;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -118,12 +116,12 @@ public class ShowDetailFragment extends Fragment implements Callback<ItemModel>,
         mDemoSlider.addOnPageChangeListener(this);
 
     }
-    private void mapinit(){
+  /*  private void mapinit(){
         Fragment fragment2 = new MapsActivity();
         FragmentTransaction fragmentTransaction2 = getFragmentManager().beginTransaction();
         fragmentTransaction2.replace(R.id.mapdetail,fragment2);
         fragmentTransaction2.commit();
-    }
+    }*/
     private void startanimation(View view){
         YoYo.with(Techniques.RubberBand)
                 .duration(100)
