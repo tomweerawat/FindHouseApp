@@ -2,6 +2,7 @@ package com.example.win81user.findhouse.Map;
 
 import android.Manifest;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -72,7 +73,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     LatLng latlng;
     double latitude;
     double longitude;
-    private int PROXIMITY_RADIUS = 10000;
+    private int PROXIMITY_RADIUS = 1;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -91,12 +92,18 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     private PendingIntent geoFencePendingIntent;
     private final int GEOFENCE_REQ_CODE = 0;
     ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
-
+    private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
 
   /*  public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
         return fragment;
     }*/
+  public static Intent makeNotificationIntent(Context context, String msg) {
+      Log.e("code","code");
+      Intent intent = new Intent( context, Testfence.class );
+      intent.putExtra( NOTIFICATION_MSG, msg );
+      return intent;
+  }
 
     @Nullable
     @Override
@@ -212,7 +219,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
         Log.e("Currentp","Currrentp"+latLng);
-//        Startsearchnearbysearch(latLng);
+
 
         // Adding colour to the marker
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
@@ -229,15 +236,6 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 
         Log.d("onLocationChanged", "Exit");
-
-    }
-
-    private void Startsearchnearbysearch(LatLng latLng) {
-        Log.e("currentnear","currentnear"+latLng);
-
-        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
-       /* Call<Example> call = service.getNearbyPlaces(latitude + "," + longitude, PROXIMITY_RADIUS);*/
-
 
     }
 
@@ -290,8 +288,8 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
                 geoFenceMarker = mMap
                         .addMarker(markerOptions
-                        .title(data.get(i).getContact())
-                        .snippet(data.get(i).getContact()));
+                                .title(data.get(i).getContact())
+                                .snippet(data.get(i).getContact()));
 
             }
             startGeofence(latLng);
@@ -301,27 +299,28 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         }
 
     }
- /*   private void create(){
-        data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-        for (int i = 0; i < data.size(); i++) {
-            Geofence geofence = new Geofence.Builder()
-                    .setRequestId(GEOFENCE_REQ_ID)
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-                    .setCircularRegion(data.get(i).getLat(), data.get(i).getLongtitude(), GEOFENCE_RADIUS)
-                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                    .build();
-            geofenceList.add(geofence);
-            Log.e("test","test"+geofence);
-        }
-    }*/
+    /*   private void create(){
+           data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+           for (int i = 0; i < data.size(); i++) {
+               Geofence geofence = new Geofence.Builder()
+                       .setRequestId(GEOFENCE_REQ_ID)
+                       .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                       .setCircularRegion(data.get(i).getLat(), data.get(i).getLongtitude(), GEOFENCE_RADIUS)
+                       .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                       .build();
+               geofenceList.add(geofence);
+               Log.e("test","test"+geofence);
+           }
+       }*/
     private PendingIntent createGeofencePendingIntent() {
         Log.d("test", "createGeofencePendingIntent");
         if ( geoFencePendingIntent != null )
             return geoFencePendingIntent;
 
         Intent intent = new Intent( getActivity(), GeofenceTrasitionService.class);
-        return PendingIntent.getService(
-                getContext(), GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+
+//        Log.e("intent","intent"+intent);
+        return PendingIntent.getService(getContext(), GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
     private void startGeofence(LatLng geofencelatlng) {
@@ -428,66 +427,66 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
 
 
 
-/*
-    private void build_retrofit_and_get_response(String type) {
+    /*
+        private void build_retrofit_and_get_response(String type) {
 
-//        String url = "https://maps.googleapis.com/maps/";
-        String url = "http://192.168.25.2:8181/FindHouse/webservice/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    //        String url = "https://maps.googleapis.com/maps/";
+            String url = "http://192.168.25.2:8181/FindHouse/webservice/";
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
+            RetrofitMaps service = retrofit.create(RetrofitMaps.class);
 
-        Call<Example> call = service.getNearbyPlaces(type, latitude + "," + longitude, PROXIMITY_RADIUS);
+            Call<Example> call = service.getNearbyPlaces(type, latitude + "," + longitude, PROXIMITY_RADIUS);
 
-        call.enqueue(new Callback<ItemModel>() {
-            @Override
-            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
-                itemModel = response.body();
-                data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-                try {
-                    mMap.clear();
-                    // This loop will go through all the results and add marker on each location.
-                    for (int i = 0; i < response.body().getResults().size(); i++) {
-                        Double lat = response.body().getResults().get(i).getGeometry().getLocation().getLat();
-                        Double lng = response.body().getResults().get(i).getGeometry().getLocation().getLng();
-                        String placeName = response.body().getResults().get(i).getName();
-                        String vicinity = response.body().getResults().get(i).getVicinity();
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        LatLng latLng = new LatLng(lat, lng);
-                        // Position of Marker on Map
-                        markerOptions.position(latLng);
-                        // Adding Title to the Marker
-                        markerOptions.title(placeName + " : " + vicinity);
-                        // Adding colour to the marker
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
-//                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                        // Adding Marker to the Camera.
-                        Marker m = mMap.addMarker(markerOptions);
+            call.enqueue(new Callback<ItemModel>() {
+                @Override
+                public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+                    itemModel = response.body();
+                    data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
+                    try {
+                        mMap.clear();
+                        // This loop will go through all the results and add marker on each location.
+                        for (int i = 0; i < response.body().getResults().size(); i++) {
+                            Double lat = response.body().getResults().get(i).getGeometry().getLocation().getLat();
+                            Double lng = response.body().getResults().get(i).getGeometry().getLocation().getLng();
+                            String placeName = response.body().getResults().get(i).getName();
+                            String vicinity = response.body().getResults().get(i).getVicinity();
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            LatLng latLng = new LatLng(lat, lng);
+                            // Position of Marker on Map
+                            markerOptions.position(latLng);
+                            // Adding Title to the Marker
+                            markerOptions.title(placeName + " : " + vicinity);
+                            // Adding colour to the marker
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+    //                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                            // Adding Marker to the Camera.
+                            Marker m = mMap.addMarker(markerOptions);
 
 
-                        // move map camera
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+                            // move map camera
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+                        }
+                    } catch (Exception e) {
+                        Log.d("onResponse", "There is an error");
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    Log.d("onResponse", "There is an error");
-                    e.printStackTrace();
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Example> call, Throwable t) {
+                    Log.d("onFailure", t.toString());
+                }
 
-            @Override
-            public void onFailure(Call<Example> call, Throwable t) {
-                Log.d("onFailure", t.toString());
-            }
+            });
 
-        });
-
-    }
-*/
+        }
+    */
     public void animateMarker(final Marker marker, final Location location) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
