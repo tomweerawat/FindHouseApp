@@ -451,10 +451,10 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
                 return;
             }
         }
-        if (searchView.isSearchOpen()) {
+      /*  if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         }
-
+*/
         super.onBackPressed();
     }
 
@@ -492,7 +492,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShowFeed(), "");
-        adapter.addFragment(new PrimaryFragment(), "");
+        adapter.addFragment(new ShowFeed(), "");
         adapter.addFragment(new TestMap(), "");
         viewPager.setAdapter(adapter);
 

@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -76,12 +78,12 @@ public class GeofenceTrasitionService extends IntentService {
         Log.i(TAG, "sendNotification: " + msg );
 
         // Intent to start the main Activity
-        Intent notificationIntent = Testfence.makeNotificationIntent(
+        Intent notificationIntent = TestMap.makeNotificationIntent(
                 getApplicationContext(), msg
         );
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(Testfence.class);
+//        stackBuilder.addParentStack(TestMap.class);
         stackBuilder.addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -94,15 +96,15 @@ public class GeofenceTrasitionService extends IntentService {
                 createNotification(msg, notificationPendingIntent));
 
     }
-
+//    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.homecon);
     // Create notification
     private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder
-                .setSmallIcon(R.drawable.ic_stat_name)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(Color.TRANSPARENT)
                 .setContentTitle(msg)
-                .setContentText("My Notification!")
+                .setContentText("Property!")
                 .setContentIntent(notificationPendingIntent)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);

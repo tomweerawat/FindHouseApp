@@ -17,7 +17,7 @@ public class Constants {
 
     public static final String TAG = "FindHouse";*/
 
-    public static final String BASE_URL = "http:/192.168.25.2:8181/";
+    public static final String BASE_URL = "http://www.tnfindhouse.com/";
     public static final String REGISTER_OPERATION = "register";
     public static final String LOGIN_OPERATION = "login";
     public static final String CHANGE_PASSWORD_OPERATION = "chgPass";

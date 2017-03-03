@@ -10,7 +10,8 @@ import retrofit2.http.POST;
 
 public interface RequestInterface {
 
-    @POST("FindHouse/webservice/user/")
+//    @POST("FindHouse/webservice/user/")
+    @POST("/user/")
     Call<ServerResponse> operation(@Body ServerRequest request);
 
 }

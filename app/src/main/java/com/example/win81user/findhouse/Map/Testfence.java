@@ -1,8 +1,11 @@
+/*
 package com.example.win81user.findhouse.Map;
 
+*/
 /**
  * Created by Win81 User on 6/1/2560.
- */
+ *//*
+
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -21,7 +24,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.win81user.findhouse.Activity.ActivityDrawer;
 import com.example.win81user.findhouse.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,7 +56,7 @@ public class Testfence extends AppCompatActivity
         GoogleMap.OnMarkerClickListener,
         ResultCallback<Status> {
 
-    private static final String TAG = Testfence.class.getSimpleName();
+    private  final String TAG = Testfence.class.getSimpleName();
 
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
@@ -64,13 +66,15 @@ public class Testfence extends AppCompatActivity
 
     private MapFragment mapFragment;
 
-    private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
+   */
+/* private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
     public static Intent makeNotificationIntent(Context context, String msg) {
         Intent intent = new Intent( context, ActivityDrawer.class );
         intent.putExtra( NOTIFICATION_MSG, msg );
         return intent;
-    }
+    }*//*
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,7 @@ public class Testfence extends AppCompatActivity
         googleApiClient.disconnect();
     }
 
+*/
 /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,7 +141,8 @@ public class Testfence extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-*/
+*//*
+
 
     private final int REQ_PERMISSION = 999;
 
@@ -337,7 +343,7 @@ public class Testfence extends AppCompatActivity
     }
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
+    private static final String GEOFENCE_REQ_ID = "Kuy";
     private static final float GEOFENCE_RADIUS = 500.0f; // in meters
 
     // Create a Geofence
@@ -465,3 +471,4 @@ public class Testfence extends AppCompatActivity
     }
 
 }
+*/

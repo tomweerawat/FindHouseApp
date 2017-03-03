@@ -163,9 +163,11 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
         for (int i = 0; i < data.size(); i++) {
             TextSliderView textSliderView = new TextSliderView(this.getContext());
             txtdetail.setText(data.get(0).getPropertyname());
+            rent.setText(data.get(0).getStatus());
             description.setText(data.get(0).getDescription() + "\n" + data.get(0).getContact());
-            price.setText(data.get(i).getPrice());
-            contactname.setText(data.get(0).getContact()+"\n"+data.get(0).getLat()+data.get(0).getLongtitude());
+            price.setText(data.get(0).getPrice());
+//            contactname.setText(data.get(0).getContact()+"\n"+data.get(0).getLat()+data.get(0).getLongtitude());
+            contactname.setText(data.get(0).getLocation());
             contactname.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

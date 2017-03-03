@@ -54,8 +54,8 @@ public class RecieveLatLng extends AppCompatActivity
         GoogleMap.OnMarkerClickListener,
         ResultCallback<Status> {
 
-    private static final String TAG = Testfence.class.getSimpleName();
-
+   /* private static final String TAG = Testfence.class.getSimpleName();*/
+ private String TAG ="l";
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
     private Location lastLocation;

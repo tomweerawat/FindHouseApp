@@ -24,6 +24,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 
 import com.example.win81user.findhouse.API.RetrofitMaps;
+import com.example.win81user.findhouse.Activity.ActivityDrawer;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -85,7 +86,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     Retrofit retrofit;
     String API = "http://192.168.25.2:8181/FindHouse/webservice/";
     private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
+//    private static final String GEOFENCE_REQ_ID = "My Geofence";
     private static final float GEOFENCE_RADIUS = 500.0f; // in meters
     Geofence geofence;
     private Marker geoFenceMarker;
@@ -93,14 +94,14 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     private final int GEOFENCE_REQ_CODE = 0;
     ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
-
+    private static final String TAG = TestMap.class.getSimpleName();
   /*  public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
         return fragment;
     }*/
   public static Intent makeNotificationIntent(Context context, String msg) {
       Log.e("code","code");
-      Intent intent = new Intent( context, Testfence.class );
+      Intent intent = new Intent( context, ActivityDrawer.class );
       intent.putExtra( NOTIFICATION_MSG, msg );
       return intent;
   }
@@ -395,7 +396,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     private Geofence createGeofence( LatLng latLng, float radius ) {
         Log.d("createGeofence", "createGeofence"+latLng);
         return new Geofence.Builder()
-                .setRequestId(GEOFENCE_REQ_ID)
+                .setRequestId(data.get(0).getLocation())
                 .setCircularRegion( latLng.latitude, latLng.longitude, radius)
                 .setExpirationDuration( GEO_DURATION )
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
