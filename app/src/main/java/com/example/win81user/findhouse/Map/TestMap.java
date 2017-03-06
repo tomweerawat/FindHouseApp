@@ -300,19 +300,6 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         }
 
     }
-    /*   private void create(){
-           data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-           for (int i = 0; i < data.size(); i++) {
-               Geofence geofence = new Geofence.Builder()
-                       .setRequestId(GEOFENCE_REQ_ID)
-                       .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-                       .setCircularRegion(data.get(i).getLat(), data.get(i).getLongtitude(), GEOFENCE_RADIUS)
-                       .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                       .build();
-               geofenceList.add(geofence);
-               Log.e("test","test"+geofence);
-           }
-       }*/
     private PendingIntent createGeofencePendingIntent() {
         Log.d("test", "createGeofencePendingIntent");
         if ( geoFencePendingIntent != null )
@@ -321,7 +308,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         Intent intent = new Intent( getActivity(), GeofenceTrasitionService.class);
 
 //        Log.e("intent","intent"+intent);
-        return PendingIntent.getService(getContext(), GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        return PendingIntent.getService(this.getContext(), GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
     private void startGeofence(LatLng geofencelatlng) {
@@ -395,8 +382,24 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     // Create a Geofence
     private Geofence createGeofence( LatLng latLng, float radius ) {
         Log.d("createGeofence", "createGeofence"+latLng);
+        String datafence ="";
+        for (int i = 0; i < data.size(); i++) {
+            if (i == 0) {
+                datafence = data.get(0).getLocation();
+            } else if (i == 1) {
+                datafence = data.get(1).getLocation();
+            } else if (i == 2) {
+                datafence = data.get(2).getLocation();
+            } else if (i == 3) {
+                datafence = data.get(3).getLocation();
+            } else if (i == 4) {
+                datafence = data.get(4).getLocation();
+            }
+
+        }
+
         return new Geofence.Builder()
-                .setRequestId(data.get(0).getLocation())
+                .setRequestId(datafence)
                 .setCircularRegion( latLng.latitude, latLng.longitude, radius)
                 .setExpirationDuration( GEO_DURATION )
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
@@ -417,77 +420,6 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-    /*
-        private void build_retrofit_and_get_response(String type) {
-
-    //        String url = "https://maps.googleapis.com/maps/";
-            String url = "http://192.168.25.2:8181/FindHouse/webservice/";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(url)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            RetrofitMaps service = retrofit.create(RetrofitMaps.class);
-
-            Call<Example> call = service.getNearbyPlaces(type, latitude + "," + longitude, PROXIMITY_RADIUS);
-
-            call.enqueue(new Callback<ItemModel>() {
-                @Override
-                public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
-                    itemModel = response.body();
-                    data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-                    try {
-                        mMap.clear();
-                        // This loop will go through all the results and add marker on each location.
-                        for (int i = 0; i < response.body().getResults().size(); i++) {
-                            Double lat = response.body().getResults().get(i).getGeometry().getLocation().getLat();
-                            Double lng = response.body().getResults().get(i).getGeometry().getLocation().getLng();
-                            String placeName = response.body().getResults().get(i).getName();
-                            String vicinity = response.body().getResults().get(i).getVicinity();
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            LatLng latLng = new LatLng(lat, lng);
-                            // Position of Marker on Map
-                            markerOptions.position(latLng);
-                            // Adding Title to the Marker
-                            markerOptions.title(placeName + " : " + vicinity);
-                            // Adding colour to the marker
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
-    //                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                            // Adding Marker to the Camera.
-                            Marker m = mMap.addMarker(markerOptions);
-
-
-                            // move map camera
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                            mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-                        }
-                    } catch (Exception e) {
-                        Log.d("onResponse", "There is an error");
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<Example> call, Throwable t) {
-                    Log.d("onFailure", t.toString());
-                }
-
-            });
-
-        }
-    */
     public void animateMarker(final Marker marker, final Location location) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();

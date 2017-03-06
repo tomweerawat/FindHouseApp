@@ -7,8 +7,6 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -101,7 +99,7 @@ public class GeofenceTrasitionService extends IntentService {
     private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.homecon)
                 .setColor(Color.TRANSPARENT)
                 .setContentTitle(msg)
                 .setContentText("Property!")
