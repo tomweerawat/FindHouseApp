@@ -62,7 +62,8 @@ public class DetailFragment2 extends Fragment implements Callback<ItemModel>,
     private Toolbar toolbar;
     private FrameLayout frameLayout;
     private SliderLayout mDemoSlider;
-    String API = "http://192.168.25.2:8181/FindHouse/webservice/";
+    /*String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
+    String API = "http://www.tnfindhouse.com/service/";
     private LoadingDialogFragment loadingDialogFragment;
     private static final String TAG_DIALOG_FRAGMENT = "dialog_fragment";
     private MapView mapView;

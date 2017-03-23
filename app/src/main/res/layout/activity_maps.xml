@@ -31,18 +31,26 @@
 
     </LinearLayout>
 
-    <info.hoang8f.widget.FButton
-        android:id="@+id/btnRestaurant"
+    <Button
         android:layout_width="wrap_content"
-        fbutton:buttonColor="#95a5a6"
-        fbutton:shadowColor="#7f8c8d"
-        fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="5dp"
-        fbutton:cornerRadius="5dp"
-        android:textColor="@color/white"
         android:layout_height="wrap_content"
-        android:text="Nearby Property"
-        android:layout_marginBottom="51dp"
+        android:id="@+id/btnRestaurant"
+        android:text="Nearby Me"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <!--   <info.hoang8f.widget.FButton
+           android:id="@+id/btnRestaurant"
+           android:layout_width="wrap_content"
+           fbutton:buttonColor="#95a5a6"
+           fbutton:shadowColor="#7f8c8d"
+           fbutton:shadowEnabled="true"
+           fbutton:shadowHeight="5dp"
+           fbutton:cornerRadius="5dp"
+           android:textColor="@color/white"
+           android:layout_height="wrap_content"
+           android:text="Nearby Property"
+           android:layout_marginBottom="51dp"
+           android:layout_alignParentBottom="true"
+           android:layout_centerHorizontal="true" />-->
 </RelativeLayout>

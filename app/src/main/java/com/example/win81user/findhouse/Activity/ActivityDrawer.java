@@ -382,7 +382,17 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
                         CURRENT_TAG = TAG_HOME;
                         break;
                     case R.id.nav_item_sent:
-                        startActivity(new Intent(ActivityDrawer.this, MainActivity.class));
+
+                        startActivity(new Intent(ActivityDrawer.this, NearbyActivity.class));
+
+
+
+
+                        drawer.closeDrawers();
+                        break;
+                    case R.id.action_notification:
+
+                        startActivity(new Intent(ActivityDrawer.this, NotificationActivity.class));
 
 
                         drawer.closeDrawers();

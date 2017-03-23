@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -77,8 +78,7 @@ public class GeofenceTrasitionService extends IntentService {
 
         // Intent to start the main Activity
         Intent notificationIntent = TestMap.makeNotificationIntent(
-                getApplicationContext(), msg
-        );
+                getApplicationContext(), msg);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 //        stackBuilder.addParentStack(TestMap.class);
@@ -94,13 +94,15 @@ public class GeofenceTrasitionService extends IntentService {
                 createNotification(msg, notificationPendingIntent));
 
     }
-//    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.homecon);
+    //    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.homecon);
     // Create notification
     private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder
                 .setSmallIcon(R.drawable.homecon)
                 .setColor(Color.TRANSPARENT)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.ic_launcher))
                 .setContentTitle(msg)
                 .setContentText("Property!")
                 .setContentIntent(notificationPendingIntent)

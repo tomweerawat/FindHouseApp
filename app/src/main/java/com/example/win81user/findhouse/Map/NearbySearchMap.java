@@ -1,3 +1,4 @@
+/*
 package com.example.win81user.findhouse.Map;
 
 import android.Manifest;
@@ -60,9 +61,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+*/
 /**
  * Created by Win81 User on 24/12/2559.
- */
+ *//*
+
 
 public class NearbySearchMap extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, Callback<ItemModel>, ResultCallback<Status>,
@@ -93,10 +96,12 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
     ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
 
 
-  /*  public static MapsActivity newInstance() {
+  */
+/*  public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
         return fragment;
-    }*/
+    }*//*
+
 
     @Nullable
     @Override
@@ -254,8 +259,10 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
     }
 
     private void apiCall(Retrofit retrofit) {
-     /*   MyApi myApi = retrofit.create(MyApi.class);
-        Call<ItemModel> call = myApi.getShout();*/
+     */
+/*   MyApi myApi = retrofit.create(MyApi.class);
+        Call<ItemModel> call = myApi.getShout();*//*
+
         RetrofitMaps service = retrofit.create(RetrofitMaps.class);
         Call<ItemModel> call = service.getNearbyPlaces(latitude + "," + longitude, PROXIMITY_RADIUS);
         call.enqueue(this);
@@ -292,7 +299,8 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
         }
 
     }
-    /*   private void create(){
+    */
+/*   private void create(){
            data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
            for (int i = 0; i < data.size(); i++) {
                Geofence geofence = new Geofence.Builder()
@@ -304,7 +312,8 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
                geofenceList.add(geofence);
                Log.e("test","test"+geofence);
            }
-       }*/
+       }*//*
+
     private PendingIntent createGeofencePendingIntent() {
         Log.d("test", "createGeofencePendingIntent");
         if ( geoFencePendingIntent != null )
@@ -418,7 +427,8 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
 
 
 
-    /*
+    */
+/*
         private void build_retrofit_and_get_response(String type) {
 
     //        String url = "https://maps.googleapis.com/maps/";
@@ -477,7 +487,8 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
             });
 
         }
-    */
+    *//*
+
     public void animateMarker(final Marker marker, final Location location) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
@@ -513,3 +524,4 @@ public class NearbySearchMap extends Fragment implements OnMapReadyCallback, Goo
         });
     }
 }
+*/

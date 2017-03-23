@@ -2,11 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.win81user.findhouse.Activity.ActivityDrawer">
-<!--    <item
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />-->
+        android:title="Home"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_condo"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_share"
+        android:title="Condo"
+        app:showAsAction="never" />
   <!--  <item
         android:id="@+id/action_search"
         app:showAsAction="always"

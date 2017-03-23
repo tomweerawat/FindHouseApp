@@ -8,10 +8,10 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_item_sent"
-            android:icon="@drawable/ic_info_black_24dp"
-            android:title="Info" />
+            android:icon="@drawable/ic_room_black_24dp"
+            android:title="Nearby Me" />
         <item
-            android:id="@+id/nav_other"
+            android:id="@+id/action_notification"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="Notification" />
 

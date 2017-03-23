@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 
 
 public interface MyApi {
-    @GET("examplemakewebsercie.php")
+    @GET("index.php")
     Call<ItemModel> getShout();
 }

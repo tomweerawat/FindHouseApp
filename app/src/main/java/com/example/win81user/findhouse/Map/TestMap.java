@@ -24,7 +24,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 
 import com.example.win81user.findhouse.API.RetrofitMaps;
-import com.example.win81user.findhouse.Activity.ActivityDrawer;
+import com.example.win81user.findhouse.Activity.NotificationActivity;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -72,8 +72,8 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Location mLocation;
     LatLng latlng;
-    double latitude;
-    double longitude;
+    public static double latitude;
+    public static double longitude;
     private int PROXIMITY_RADIUS = 1;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
@@ -81,10 +81,11 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
     LatLng latLng;
     LocationRequest mLocationRequest;
     private ItemModel itemModel;
-    private ArrayList<Property> data;
+    protected static ArrayList<Property> data;
     private static final String Geofence_id = "Geofence_id";
     Retrofit retrofit;
-    String API = "http://192.168.25.2:8181/FindHouse/webservice/";
+    /*String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
+    String API = "http://www.tnfindhouse.com/service/";
     private static final long GEO_DURATION = 60 * 60 * 1000;
 //    private static final String GEOFENCE_REQ_ID = "My Geofence";
     private static final float GEOFENCE_RADIUS = 500.0f; // in meters
@@ -100,9 +101,23 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
         return fragment;
     }*/
   public static Intent makeNotificationIntent(Context context, String msg) {
-      Log.e("code","code");
-      Intent intent = new Intent( context, ActivityDrawer.class );
-      intent.putExtra( NOTIFICATION_MSG, msg );
+      Log.e("datafrom","datafrom"+msg);
+      String datafence = msg;
+/*      for (int i = 0; i < data.size(); i++) {
+          if (i == 0) {
+              datafence = data.get(0).getLocation();
+          } else if (i == 1) {
+              datafence = data.get(1).getLocation();
+          } else if (i == 2) {
+              datafence = data.get(2).getLocation();
+          } else if (i == 3) {
+              datafence = data.get(3).getLocation();
+          } else if (i == 4) {
+              datafence = data.get(4).getLocation();
+          }
+      }*/
+      Intent intent = new Intent( context, NotificationActivity.class );
+      intent.putExtra( "NOTIFICATION_MSG", datafence );
       return intent;
   }
 
@@ -223,8 +238,8 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
 
 
         // Adding colour to the marker
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-//        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.currentmarker));
 
         // Adding Marker to the Map
         mCurrLocationMarker = mMap.addMarker(markerOptions);
@@ -286,11 +301,23 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
                 latLng = new LatLng(lat, lng);
                 markerOptions.position(latLng);
                 Log.e("tomtom","tomtom"+latLng);
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+                String locationmarker = "";
+                if (i == 0) {
+                    locationmarker = data.get(0).getLocation();
+                } else if (i == 1) {
+                    locationmarker = data.get(1).getLocation();
+                } else if (i == 2) {
+                    locationmarker = data.get(2).getLocation();
+                } else if (i == 3) {
+                    locationmarker = data.get(3).getLocation();
+                } else if (i == 4) {
+                    locationmarker = data.get(4).getLocation();
+                }
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.propertymarker));
                 geoFenceMarker = mMap
                         .addMarker(markerOptions
-                                .title(data.get(i).getContact())
-                                .snippet(data.get(i).getContact()));
+                                .title(locationmarker)
+                                .snippet(locationmarker));
 
             }
             startGeofence(latLng);
