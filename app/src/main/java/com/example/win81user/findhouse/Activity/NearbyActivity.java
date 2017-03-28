@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.win81user.findhouse.API.RetrofitMaps;
 import com.example.win81user.findhouse.Adapter.NearbyAdapter;
-import com.example.win81user.findhouse.Map.TestMap;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -26,6 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -65,9 +65,13 @@ public class NearbyActivity extends AppCompatActivity
     private Location mLastLocation;
     private int PROXIMITY_RADIUS = 1;
     private Toolbar toolbar;
-    double mylat = TestMap.latitude;
-    double mylng = TestMap.longitude;
-    String API = "http://192.168.25.2:8181/FindHouse/webservice/";
+ /*   double mylat = TestMap.latitude;
+    double mylng = TestMap.longitude;*/
+    private double latitude;
+    private double longitude;
+
+   /* String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
+    String API = "http://www.tnfindhouse.com/service/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +80,7 @@ public class NearbyActivity extends AppCompatActivity
         setuprecycleview();
         retrofitlog();
         buildGoogleApiClient();
+
 //        initview();
 
 
@@ -128,12 +133,13 @@ public class NearbyActivity extends AppCompatActivity
 
     private void apiCall(Retrofit retrofit) {
 
-        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
 
-        Call<ItemModel> call = service.getNearbyPlaces(mylat + "," + mylng, PROXIMITY_RADIUS);
+        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
+        Call<ItemModel> call = service.getNearbyPlaces(latitude + "," +longitude, PROXIMITY_RADIUS);
+        Log.e("datatoservice","datatoservice"+latitude);
        /* Call<ItemModel> call = service.getNearbyPlaces(13.745112 + "," + 100.537323, PROXIMITY_RADIUS);*/
         call.enqueue(this);
-        Log.e("apiCall","Success Calllat"+mylat);
+        Log.e("apiCall","Success Calllat");
     }
 
     @Override
@@ -154,7 +160,7 @@ public class NearbyActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(),"boom !",Toast.LENGTH_LONG).show();
     }
     protected synchronized void buildGoogleApiClient() {
-        Toast.makeText(this,"qqqqqq !",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"buildGoogleApiClient !",Toast.LENGTH_LONG).show();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -162,22 +168,6 @@ public class NearbyActivity extends AppCompatActivity
                 .build();
         mGoogleApiClient.connect();
     }
-
-/*    @Override
-    public void onLocationChanged(Location location) {
-
-        mLastLocation = location;
-        Log.e("mLastLocation","mLastLocation"+mLastLocation);
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        }
-        //Place current location marker
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        Log.e("new","new"+latLng);
-    }*/
-
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
@@ -185,6 +175,11 @@ public class NearbyActivity extends AppCompatActivity
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        latitude = mLastLocation.getLatitude();
+        longitude = mLastLocation.getLongitude();
+        Log.d("LastLocation2","LastLocation2"+latitude);
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -211,22 +206,22 @@ public class NearbyActivity extends AppCompatActivity
     }
     @Override
     public void onLocationChanged(Location mylocation) {
-      /*  Log.e("mylocation","mylocation"+mylocation);
-        mLastLocation = mylocation;
+        Log.d("onLocationChanged1", "entered");
 
+        mLastLocation = mylocation;
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+        //Place current location marker
         latitude = mylocation.getLatitude();
         longitude = mylocation.getLongitude();
-        LatLng latLng = new LatLng(mylocation.getLatitude(), mylocation.getLongitude());*/
-        if(mylocation!=null){
-//            Toast.makeText(this,"Hello !",Toast.LENGTH_LONG).show();
-//            LatLng latLng = new LatLng(mylocation.getLatitude(), mylocation.getLongitude());
-//            TestMap.latitude = mylocation.getLatitude();
-//            TestMap.longitude = mylocation.getLongitude();
-            Log.d("QWERT","QWERT"+mylat+"\n"+""+mylng);
-        }else {
-            Toast.makeText(this,"Hello !",Toast.LENGTH_LONG).show();
-        }
+        LatLng latLng = new LatLng(mylocation.getLatitude(), mylocation.getLongitude());
+        Log.e("Currentp","Currrentp"+latLng);
 
+
+        Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
+
+        Log.d("onLocationChanged", "Exit");
     }
 
 

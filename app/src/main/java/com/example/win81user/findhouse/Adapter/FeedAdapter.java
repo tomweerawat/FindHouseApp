@@ -43,7 +43,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(FeedAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.txtName1.setText(properties.get(i).getDescription()+"\n"+properties.get(i).getPrice()+"\t"+"Baht");
+        viewHolder.txtName1.setText(properties.get(i).getLocation()+"\n"+properties.get(i).getPrice()+"\t"+"Baht");
         Picasso.with(viewHolder.image.getContext()).load(properties.get(i).getImage()).into(viewHolder.image);
 
 
