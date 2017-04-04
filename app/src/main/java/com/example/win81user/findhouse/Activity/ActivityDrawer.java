@@ -69,9 +69,9 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     public static ViewPager viewPager;
     public static int int_items = 3 ;
     private int[] tabIcons = {
-            R.drawable.ic_supervisor_account_black_24dp,
-            R.drawable.ic_home_black_24dp,
-            R.drawable.ic_room_black_24dp
+            R.drawable.cityscape,
+            R.drawable.home,
+            R.drawable.placeholder
 
     };
     private static final String urlNavHeaderBg ="http://192.168.25.2:8181/FindHouse/uploads/userimg/tom.png";
@@ -483,19 +483,23 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         }
         return true;
     }
-
+*/
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.action_search) {
+        if (id == R.id.action_settings) {
 //            searchView.setMenuItem(item);
+        startActivity(new Intent(ActivityDrawer.this, NearbyActivity.class));
+        }
+        if(id == R.id.action_condo){
+            startActivity(new Intent(ActivityDrawer.this, NearbyActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
-*/
+
 
 
     private void setupViewPager(ViewPager viewPager) {

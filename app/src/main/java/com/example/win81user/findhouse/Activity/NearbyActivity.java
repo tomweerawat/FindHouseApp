@@ -2,6 +2,7 @@ package com.example.win81user.findhouse.Activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.win81user.findhouse.API.RetrofitMaps;
@@ -20,6 +22,7 @@ import com.example.win81user.findhouse.Adapter.NearbyAdapter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.Utility.ClickListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -47,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NearbyActivity extends AppCompatActivity
         implements Callback<ItemModel>,LocationListener,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,ClickListener {
     Retrofit retrofit;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -57,20 +60,20 @@ public class NearbyActivity extends AppCompatActivity
     private ArrayList<Property> data;
     Context context;
     SwipeRefreshLayout swipeRefreshLayout;
- /*   private double latitude;
-    private double longitude;*/
+    /*   private double latitude;
+       private double longitude;*/
     private LocationRequest mLocationRequest;
     private Marker mCurrLocationMarker;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private int PROXIMITY_RADIUS = 1;
     private Toolbar toolbar;
- /*   double mylat = TestMap.latitude;
-    double mylng = TestMap.longitude;*/
+    /*   double mylat = TestMap.latitude;
+       double mylng = TestMap.longitude;*/
     private double latitude;
     private double longitude;
 
-   /* String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
+    /* String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
     String API = "http://www.tnfindhouse.com/service/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,14 @@ public class NearbyActivity extends AppCompatActivity
     private void setuprecycleview(){
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_nearby);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        toolbar = (Toolbar) findViewById(R.id.toolbardd1);
+        toolbar.setNavigationIcon(R.drawable.ic_navigate_before_black_36dp);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              finish();
+            }
+        });
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -160,7 +171,7 @@ public class NearbyActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(),"boom !",Toast.LENGTH_LONG).show();
     }
     protected synchronized void buildGoogleApiClient() {
-        Toast.makeText(this,"buildGoogleApiClient !",Toast.LENGTH_LONG).show();
+       /* Toast.makeText(this,"buildGoogleApiClient !",Toast.LENGTH_LONG).show();*/
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -225,4 +236,10 @@ public class NearbyActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void itemClicked(View view, int position) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("ItemPosition", position);
+        startActivity(intent);
+    }
 }

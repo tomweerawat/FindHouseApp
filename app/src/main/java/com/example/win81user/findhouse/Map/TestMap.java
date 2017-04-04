@@ -24,7 +24,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 
 import com.example.win81user.findhouse.API.RetrofitMaps;
-import com.example.win81user.findhouse.Activity.NotificationActivity;
+import com.example.win81user.findhouse.Activity.NearbyActivity;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
@@ -116,7 +116,7 @@ public class TestMap extends Fragment implements OnMapReadyCallback, GoogleApiCl
               datafence = data.get(4).getLocation();
           }
       }*/
-      Intent intent = new Intent( context, NotificationActivity.class );
+      Intent intent = new Intent( context, NearbyActivity.class );
       intent.putExtra( "NOTIFICATION_MSG", datafence );
       return intent;
   }
