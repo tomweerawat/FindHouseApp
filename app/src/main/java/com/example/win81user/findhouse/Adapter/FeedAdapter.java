@@ -43,7 +43,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(FeedAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.txtName1.setText(properties.get(i).getLocation()+"\n"+properties.get(i).getPrice()+"\t"+"Baht");
+     /*   viewHolder.txtName1.setText(properties.get(i).getLocation()+"\n"+properties.get(i).getPrice()+"\t"+"Baht");*/
+        viewHolder.txtName1.setText(properties.get(i).getPropertyname());
+        viewHolder.txtName.setText(properties.get(i).getPrice());
         Picasso.with(viewHolder.image.getContext()).load(properties.get(i).getImage()).into(viewHolder.image);
 
 
@@ -74,6 +76,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> im
         public ViewHolder(View v) {
             super(v);
             txtName1 = (TextView)v.findViewById(R.id.titleTextView);
+            txtName  = (TextView)v.findViewById(R.id.hotel);
             image = (ImageView)v.findViewById(R.id.coverImageView);
 //            shareImageView = (ImageView) v.findViewById(R.id.shareImageView);
             v.setOnClickListener(this);

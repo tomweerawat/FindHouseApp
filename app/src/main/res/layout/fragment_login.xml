@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/buttonlogin"
-
+            android:theme="@style/MyButton"
             android:text="Log In"
             android:textStyle="bold"
             android:gravity="center"

@@ -62,7 +62,6 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
     private Toolbar toolbar;
     private FrameLayout frameLayout;
     private SliderLayout mDemoSlider;
-    /*String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
     String API = "http://www.tnfindhouse.com/service/";
     private LoadingDialogFragment loadingDialogFragment;
     private static final String TAG_DIALOG_FRAGMENT = "dialog_fragment";
@@ -71,7 +70,7 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
     LatLng latLng;
     Marker mMarker;
     private GoogleMap mMap;
-
+    private String srtUrl;
 
     @Nullable
     @Override
@@ -189,7 +188,7 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
 
                 }
             });
-            String srtUrl = "";
+
             if (i == 0) {
                 srtUrl = data.get(0).getImage();
             } else if (i == 1) {
@@ -200,7 +199,10 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
                 srtUrl = data.get(0).getImage4();
             } else if (i == 4) {
                 srtUrl = data.get(0).getImage5();
+                Log.e("str12","str12"+srtUrl);
             }
+            /*String img = data.get(0).getImage()+data.get(0).getImage2()+data.get(0).getImage3()+data.get(0).getImage4()+data.get(0).getImage5();
+            Log.d("img","img"+img);*/
             textSliderView
 //                    .description(data.get(0).getDescription())
                     .image(srtUrl)

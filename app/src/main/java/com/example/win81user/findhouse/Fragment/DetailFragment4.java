@@ -70,6 +70,7 @@ public class DetailFragment4 extends Fragment implements Callback<ItemModel>,
     LatLng latLng;
     Marker mMarker;
     private GoogleMap mMap;
+    private String srtUrl ;
 
 
     @Nullable
@@ -188,7 +189,7 @@ public class DetailFragment4 extends Fragment implements Callback<ItemModel>,
 
                 }
             });
-            String srtUrl = "";
+
             if (i == 0) {
                 srtUrl = data.get(4).getImage();
             } else if (i == 1) {
