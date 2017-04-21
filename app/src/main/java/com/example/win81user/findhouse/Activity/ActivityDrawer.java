@@ -74,7 +74,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
             R.drawable.placeholder
 
     };
-    private static final String urlNavHeaderBg ="http://192.168.25.2:8181/FindHouse/uploads/userimg/tom.png";
+    private static final String urlNavHeaderBg ="https://api.learn2crack.com/android/images/donut.png";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 

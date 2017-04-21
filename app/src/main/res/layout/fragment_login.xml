@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@drawable/havana">
 
     <!--android:background="@drawable/uikitbgclear"-->
     <ImageView
@@ -13,23 +13,6 @@
         android:scaleType="fitXY"
         />
    <!-- android:src="@drawable/transparent"-->
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/homecon"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"/>
-    <com.example.win81user.findhouse.Utility.MyTextView
-        android:id="@+id/holliday"
-        android:layout_below="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FindHouse"
-        android:textSize="40dp"
-        android:textColor="#fff"
-        android:gravity="center"
-        android:layout_marginTop="70dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -124,4 +107,16 @@
 
 
     </LinearLayout>
+
+    <com.example.win81user.findhouse.Utility.MyTextView
+        android:id="@+id/holliday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FindHouse"
+        android:textSize="40dp"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:layout_marginTop="116dp"
+
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
