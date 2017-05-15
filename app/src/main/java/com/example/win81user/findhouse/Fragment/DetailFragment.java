@@ -26,6 +26,7 @@ import com.example.win81user.findhouse.Map.RecieveLatLng;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.SpacePhotoActivity;
 import com.example.win81user.findhouse.Utility.ClickListener;
 import com.example.win81user.findhouse.Utility.LoadingDialogFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -164,7 +165,8 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
             TextSliderView textSliderView = new TextSliderView(this.getContext());
             txtdetail.setText(data.get(0).getPropertyname());
             rent.setText(data.get(0).getStatus());
-            description.setText(data.get(0).getDescription() + "\n" + data.get(0).getContact());
+          /*  description.setText(data.get(0).getDescription() + "\n" + data.get(0).getContact());*/
+              description.setText(data.get(0).getDescription());
             price.setText(data.get(0).getPrice());
 //            contactname.setText(data.get(0).getContact()+"\n"+data.get(0).getLat()+data.get(0).getLongtitude());
             contactname.setText(data.get(0).getLocation());
@@ -211,6 +213,16 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
 
 
             textSliderView.bundle(new Bundle());
+            textSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView slider) {
+
+                    Intent i = new Intent(getActivity(), SpacePhotoActivity.class);
+                    i.putExtra("value",srtUrl);
+                    startActivity(i);
+
+                }
+            });
 
             mDemoSlider.addSlider(textSliderView);
 
@@ -252,6 +264,7 @@ public class DetailFragment extends Fragment implements Callback<ItemModel>,
 
     @Override
     public void onPageSelected(int position) {
+      /*  Toast.makeText(getContext(),"Click"+position,Toast.LENGTH_SHORT).show();*/
 
     }
 

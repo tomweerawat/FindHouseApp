@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.win81user.findhouse.API.RetrofitMaps;
@@ -28,7 +29,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NearbyActivity extends AppCompatActivity
         implements Callback<ItemModel>,LocationListener,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,ClickListener {
+        GoogleApiClient.OnConnectionFailedListener,ClickListener,View.OnClickListener {
     Retrofit retrofit;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -72,6 +72,7 @@ public class NearbyActivity extends AppCompatActivity
        double mylng = TestMap.longitude;*/
     private double latitude;
     private double longitude;
+    private Button btn;
 
     /* String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/
     String API = "http://www.tnfindhouse.com/service/";
@@ -109,7 +110,7 @@ public class NearbyActivity extends AppCompatActivity
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              finish();
+                finish();
             }
         });
         mLayoutManager = new LinearLayoutManager(this);
@@ -129,6 +130,7 @@ public class NearbyActivity extends AppCompatActivity
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
 //        Log.e("retrofit2","connected"+API);
         apiCall(retrofit);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -147,6 +149,7 @@ public class NearbyActivity extends AppCompatActivity
 
         RetrofitMaps service = retrofit.create(RetrofitMaps.class);
         Call<ItemModel> call = service.getNearbyPlaces(latitude + "," +longitude, PROXIMITY_RADIUS);
+        Toast.makeText(this,"apiCall !"+latitude+"\t"+longitude,Toast.LENGTH_LONG).show();
         Log.e("datatoservice","datatoservice"+latitude);
        /* Call<ItemModel> call = service.getNearbyPlaces(13.745112 + "," + 100.537323, PROXIMITY_RADIUS);*/
         call.enqueue(this);
@@ -187,10 +190,10 @@ public class NearbyActivity extends AppCompatActivity
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        latitude = mLastLocation.getLatitude();
+      /*  latitude = mLastLocation.getLatitude();
         longitude = mLastLocation.getLongitude();
-        Log.d("LastLocation2","LastLocation2"+latitude);
-
+        Log.d("LastLocation2","LastLocation2"+latitude+"/t"+longitude);
+*/
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -218,8 +221,10 @@ public class NearbyActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location mylocation) {
         Log.d("onLocationChanged1", "entered");
+        latitude = mylocation.getLatitude();
+        longitude = mylocation.getLongitude();
 
-        mLastLocation = mylocation;
+    /*    mLastLocation = mylocation;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
@@ -232,7 +237,7 @@ public class NearbyActivity extends AppCompatActivity
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 
-        Log.d("onLocationChanged", "Exit");
+        Log.d("onLocationChanged", "Exit");*/
     }
 
 
@@ -241,5 +246,10 @@ public class NearbyActivity extends AppCompatActivity
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("ItemPosition", position);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Toast.makeText(this,"Failed !",Toast.LENGTH_LONG).show();
     }
 }

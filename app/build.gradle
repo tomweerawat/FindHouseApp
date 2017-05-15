@@ -64,6 +64,8 @@ dependencies {
     compile 'com.lapism:searchview:4.0'
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+  
 
 
 }
