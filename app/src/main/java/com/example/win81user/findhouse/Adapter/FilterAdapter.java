@@ -1,17 +1,13 @@
 package com.example.win81user.findhouse.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.win81user.findhouse.Activity.MainActivity;
 import com.example.win81user.findhouse.CustomFilter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
@@ -22,32 +18,32 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by Win81 User on 9/3/2560.
+ * Created by Win81 User on 17/5/2560.
  */
 
-public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
+public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder>  {
     public ArrayList<Property> properties;
     private ItemModel itemModel;
     private static ClickListener clicklistener = null;
     CustomFilter filter;
     Context c;
 
-    public NearbyAdapter(Context cx,ArrayList<Property> properties) {
+    public FilterAdapter(Context cx,ArrayList<Property> properties) {
         this.c= cx;
         this.properties = properties;
     }
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public FilterAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.single_item,viewGroup, false);
-        return new ViewHolder(view);
+        return new FilterAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.txtdetail.setText(properties.get(i).getDescription());
-        viewHolder.texttitle.setText(properties.get(i).getPropertyname());
+    public void onBindViewHolder(FilterAdapter.ViewHolder viewHolder, int i) {
+        viewHolder.txtName1.setText(properties.get(i).getPropertyname());
+        viewHolder.txtName.setText(properties.get(i).getPrice());
         Picasso.with(viewHolder.image.getContext()).load(properties.get(i).getImage()).into(viewHolder.image);
        /* viewHolder.mtoolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,28 +59,30 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView image;
-        private TextView txtdetail,texttitle;
-        private Toolbar mtoolbar;
+        private TextView txtName,txtName1;
+        private ImageView image,shareImageView;
+        private TextView txtStatus;
+        private TextView url;
+        private TextView timeStamp;
+
         public ViewHolder(View v) {
             super(v);
+            txtName1 = (TextView)v.findViewById(R.id.titleTextView);
+            txtName  = (TextView)v.findViewById(R.id.hotel);
+            image = (ImageView)v.findViewById(R.id.coverImageView);
+//            shareImageView = (ImageView) v.findViewById(R.id.shareImageView);
             v.setOnClickListener(this);
-            txtdetail = (TextView)v.findViewById(R.id.textdetail);
-            texttitle = (TextView)v.findViewById(R.id.texttitle);
-            image = (ImageView)v.findViewById(R.id.thumbnail);
-         /*   mtoolbar = (Toolbar)v.findViewById(R.id.toolbardd1);
-            mtoolbar.setNavigationIcon(R.drawable.ic_navigate_before_black_36dp);*/
-        }
 
+
+        }
 
         @Override
-        public void onClick(View view) {
-            int pos = getAdapterPosition();
-            Intent i = new Intent(view.getContext(), MainActivity.class);
-            i.putExtra("ItemPosition", pos);
-            view.getContext().startActivity(i);
-            Toast.makeText(itemView.getContext(), "Tom"+pos, Toast.LENGTH_SHORT).show();
+        public void onClick(View v) {
+            if (clicklistener != null) {
+                clicklistener.itemClicked(v, getAdapterPosition());
+            }
 
         }
+
     }
 }

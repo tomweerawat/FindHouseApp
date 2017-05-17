@@ -1,4 +1,4 @@
-package com.example.win81user.findhouse;
+package com.example.win81user.findhouse.Activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -17,6 +16,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.example.win81user.findhouse.R;
 
 
 public class SpacePhotoActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener, BaseSliderView.OnSliderClickListener {
@@ -33,7 +33,7 @@ public class SpacePhotoActivity extends AppCompatActivity implements ViewPagerEx
         setContentView(R.layout.item_pager_image);
         Bundle bundle = getIntent().getExtras();
         String text = bundle.getString("value");
-        Toast.makeText(this,"Hello"+text,Toast.LENGTH_SHORT).show();
+      /*  Toast.makeText(this,"Hello"+text,Toast.LENGTH_SHORT).show();*/
         initview();
         TextSliderView textSliderView = new TextSliderView(this);
         textSliderView

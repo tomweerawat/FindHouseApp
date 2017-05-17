@@ -52,6 +52,7 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     private RecyclerView recyclerView;
     private FeedAdapter dataAdapter;
     private ArrayList<Property> data;
+    private RecyclerView.Adapter mAdapter;
     Context context;
     //http://192.168.25.2:8181/weerawat/ https://weerawatcomsci.github.io/feed/
    /* String API = "http://192.168.25.2:8181/FindHouse/webservice/";*/

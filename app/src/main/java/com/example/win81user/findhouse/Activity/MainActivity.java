@@ -10,8 +10,8 @@ import com.example.win81user.findhouse.Common.BaseActivity;
 import com.example.win81user.findhouse.Fragment.DetailFragment;
 import com.example.win81user.findhouse.Fragment.DetailFragment1;
 import com.example.win81user.findhouse.Fragment.DetailFragment2;
+import com.example.win81user.findhouse.Fragment.DetailFragment3;
 import com.example.win81user.findhouse.Fragment.DetailFragment4;
-import com.example.win81user.findhouse.Fragment.PrimaryFragment;
 import com.example.win81user.findhouse.R;
 import com.example.win81user.findhouse.Utility.NextzyUtil;
 
@@ -60,14 +60,14 @@ public class MainActivity extends BaseActivity {
                 break;
             case 3:
                 showLoadingDialog();
-                Fragment fragment3 = new DetailFragment4();
+                Fragment fragment3 = new DetailFragment3();
                 FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction3.replace(R.id.test,fragment3);
                 fragmentTransaction3.commit();
                 break;
             case 4:
                 showLoadingDialog();
-                Fragment fragment4 = new PrimaryFragment();
+                Fragment fragment4 = new DetailFragment4();
                 FragmentTransaction fragmentTransaction4 = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction4.replace(R.id.test,fragment4);
                 fragmentTransaction4.commit();

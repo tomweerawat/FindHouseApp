@@ -41,7 +41,8 @@
             android:name=".Activity.ActivityDrawer" />
         <activity android:name=".Activity.NearbyActivity"/>
         <activity android:name=".Activity.NotificationActivity"/>
-        <activity android:name=".SpacePhotoActivity"/>
+        <activity android:name=".Activity.SpacePhotoActivity"/>
+        <activity android:name=".Activity.FilterActivity"/>
         <!--<activity android:name=".Map.Testfence"/>-->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

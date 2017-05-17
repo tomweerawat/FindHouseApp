@@ -26,6 +26,7 @@ import com.example.win81user.findhouse.Map.RecieveLatLng;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.Activity.SpacePhotoActivity;
 import com.example.win81user.findhouse.Utility.ClickListener;
 import com.example.win81user.findhouse.Utility.LoadingDialogFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -241,6 +242,9 @@ public class DetailFragment3 extends Fragment implements Callback<ItemModel>,
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
+        Intent i = new Intent(getActivity(), SpacePhotoActivity.class);
+        i.putExtra("value",srtUrl);
+        startActivity(i);
 
     }
 

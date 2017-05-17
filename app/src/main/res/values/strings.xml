@@ -31,4 +31,19 @@
     <string name="dialog_loading_loading">Loading</string>
     <string name="title_activity_maps">Map</string>
 
+    <string-array name="shopping_item">
+        <item>ขาย</item>
+        <item>ให้เช่า</item>
+        <item>บ้าน</item>
+        <item>คอนโด</item>
+        <item>ที่ดิน</item>
+        <item>ราคา 0 - 500000</item>
+        <item>ราคา 500001 - 1000000</item>
+        <item>ราคา 1000001 - 1500000</item>
+        <item>ราคา 1500001 - 2000000</item>
+        <item>ราคา 2000001 - 3000000</item>
+        <item>ราคา 3000001 - 4000000</item>
+        <item>5000000 ขึ้นไป</item>
+    </string-array>
+
 </resources>

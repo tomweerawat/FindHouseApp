@@ -26,7 +26,7 @@ import com.example.win81user.findhouse.Map.RecieveLatLng;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
-import com.example.win81user.findhouse.SpacePhotoActivity;
+import com.example.win81user.findhouse.Activity.SpacePhotoActivity;
 import com.example.win81user.findhouse.Utility.ClickListener;
 import com.example.win81user.findhouse.Utility.LoadingDialogFragment;
 import com.google.android.gms.maps.GoogleMap;

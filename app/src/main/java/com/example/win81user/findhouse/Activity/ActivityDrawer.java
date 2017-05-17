@@ -3,6 +3,7 @@ package com.example.win81user.findhouse.Activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -15,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.util.Log;
@@ -101,6 +103,9 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     private static final int ANIM_DURATION_TOOLBAR = 300;
     private static final int USER_OPTIONS_ANIMATION_DELAY = 300;
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
+    String[] listItems;
+    boolean[] checkedItems;
+    ArrayList<Integer> mUserItems = new ArrayList<>();
 
 
 
@@ -128,6 +133,8 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
         prepareservice();
         // initializing navigation menu
         setUpNavigationView();
+        listItems = getResources().getStringArray(R.array.shopping_item);
+        checkedItems = new boolean[listItems.length];
 
         mHandler = new Handler();
 
@@ -490,13 +497,67 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.filtersearch) {
 //            searchView.setMenuItem(item);
-        startActivity(new Intent(ActivityDrawer.this, NearbyActivity.class));
+//        startActivity(new Intent(ActivityDrawer.this, NearbyActivity.class));
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(ActivityDrawer.this);
+            mBuilder.setTitle("Filter");
+            mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                    if(isChecked){
+                        mUserItems.add(position);
+                    }else{
+                        mUserItems.remove((Integer.valueOf(position)));
+                    }
+
+                }
+
+            });
+            mBuilder.setCancelable(false);
+            mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int which) {
+                    String item = "";
+                    for (int i = 0; i < mUserItems.size(); i++) {
+                        item = item + listItems[mUserItems.get(i)];
+                        if (i != mUserItems.size() - 1) {
+                            item = item + ", ";
+                        }
+                    }
+                    Intent i = new Intent(ActivityDrawer.this,FilterActivity.class);
+                    i.putExtra("filter",item);
+                    startActivity(i);
+                    Log.e("JJ","JJ"+item);
+
+                }
+            });
+            mBuilder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int which) {
+                    for (int i = 0; i < checkedItems.length; i++) {
+                        checkedItems[i] = false;
+                        mUserItems.clear();
+
+                    }
+                }
+            });
+            AlertDialog mDialog = mBuilder.create();
+            mDialog.show();
+
+
+
+
+
+
+
+
+
+
         }
-        if(id == R.id.action_condo){
+       /* if(id == R.id.action_condo){
             startActivity(new Intent(ActivityDrawer.this, NearbyActivity.class));
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
