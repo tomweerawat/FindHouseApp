@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.win81user.findhouse.API.MyApi;
-import com.example.win81user.findhouse.Activity.MainActivity;
+import com.example.win81user.findhouse.Activity.DetailActivity;
 import com.example.win81user.findhouse.Adapter.FeedAdapter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
@@ -142,8 +142,8 @@ public class ShowFeed extends Fragment implements Callback<ItemModel>,ClickListe
     @Override
     public void itemClicked(View view, int position) {
 
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra("ItemPosition", position);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("ItemPosition", data.get(position));
         startActivity(intent);
        /* Bundle args = new Bundle();
         Fragment socialFragment = new TestFragment();

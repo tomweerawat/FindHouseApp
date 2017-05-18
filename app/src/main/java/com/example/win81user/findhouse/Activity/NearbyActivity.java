@@ -243,7 +243,7 @@ public class NearbyActivity extends AppCompatActivity
 
     @Override
     public void itemClicked(View view, int position) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("ItemPosition", position);
         startActivity(intent);
     }

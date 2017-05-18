@@ -1,10 +1,13 @@
 package com.example.win81user.findhouse.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Property {
+public class Property implements Parcelable {
     @Expose
     @SerializedName("property_id")
     private int property_id;
@@ -56,6 +59,49 @@ public class Property {
     @SerializedName("lng")
     private Double lng;
 
+    public Property(Parcel parcel){
+        setProperty_id(parcel.readInt());
+        setContact(parcel.readString());
+        setPropertyname(parcel.readString());
+        setLocation(parcel.readString());
+        setStatus(parcel.readString());
+        setPrice(parcel.readString());
+        setDescription(parcel.readString());
+        setActivation(parcel.readString());
+        setImage(parcel.readString());
+        setImage2(parcel.readString());
+        setImage3(parcel.readString());
+        setImage4(parcel.readString());
+        setImage5(parcel.readString());
+        setLat(parcel.readDouble());
+        setLongtitude(parcel.readDouble());
+      /*  setPropertyname(parcel.readString());
+        setActivation(parcel.readString());
+        setDescription(parcel.readString());
+        setContact(parcel.readString());
+        setPrice(parcel.readString());
+        setImage(parcel.readString());*/
+
+    }
+    public Property(String m, String b, int p, String up){
+        description = m;
+        propertyname = b;
+        property_id = p;
+        Image2 = up;
+    }
+
+
+    public static final Creator<Property> CREATOR = new Creator<Property>() {
+        @Override
+        public Property createFromParcel(Parcel in) {
+            return new Property(in);
+        }
+
+        @Override
+        public Property[] newArray(int size) {
+            return new Property[size];
+        }
+    };
 
     public Double getLongtitude() {
         return lng;
@@ -180,6 +226,48 @@ public class Property {
 
     public void setImage2(String image2) {
         Image2 = image2;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getProperty_id());
+        dest.writeString(getContact());
+        dest.writeString(getPropertyname());
+        dest.writeString( getLocation() );
+        dest.writeString(getStatus());
+        dest.writeString( getPrice() );
+        dest.writeString( getDescription() );
+        dest.writeString( getActivation() );
+        dest.writeString( getImage() );
+        dest.writeString( getImage2() );
+        dest.writeString( getImage3() );
+        dest.writeString( getImage4() );
+        dest.writeString( getImage5() );
+        dest.writeDouble( getLat() );
+        dest.writeDouble( getLongtitude() );
+       /* dest.writeString( getPropertyname() );
+        dest.writeString( getDescription() );
+        dest.writeInt( getProperty_id() );
+        dest.writeString( getImage() );
+        dest.writeString( getImage2() );
+        dest.writeString( getImage3() );
+        dest.writeString( getImage4() );
+        dest.writeString( getPrice() );
+        dest.writeString( getImage4() );
+        dest.writeString( getImage5() );
+        dest.writeString( getContact() );
+        dest.writeString( getActivation() );
+        dest.writeString( getLocation() );
+        dest.writeDouble( getLat() );
+        dest.writeDouble( getLongtitude() );
+        dest.writeString( getContact() );*/
+
+
     }
 
 }

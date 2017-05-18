@@ -1,20 +1,22 @@
 package com.example.win81user.findhouse.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.win81user.findhouse.API.MyApi;
 import com.example.win81user.findhouse.Adapter.FeedAdapter;
-import com.example.win81user.findhouse.Adapter.FilterAdapter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
 import com.example.win81user.findhouse.R;
+import com.example.win81user.findhouse.Utility.ClickListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -33,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Win81 User on 17/5/2560.
  */
 
-public class FilterActivity extends AppCompatActivity implements Callback<ItemModel> {
+public class FilterActivity extends AppCompatActivity implements Callback<ItemModel>,ClickListener {
     private TextView tv;
     Retrofit retrofit;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -42,7 +44,7 @@ public class FilterActivity extends AppCompatActivity implements Callback<ItemMo
     private ArrayList<Property> data;
     private RecyclerView.Adapter mAdapter;
     Context context;
-    String API = "http://www.tnfindhouse.com/service/";
+    String API = "http://www.tnfindhouse.com/filter/";
     String datafilter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +100,21 @@ public class FilterActivity extends AppCompatActivity implements Callback<ItemMo
     public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
         ItemModel itemModel = response.body();
         data = new ArrayList<>(Arrays.asList(itemModel.getProperty()));
-        FilterAdapter adapter = new FilterAdapter(context,data);
-        recyclerView.setAdapter(adapter);
+        dataAdapter = new FeedAdapter(context,data);
+        recyclerView.setAdapter(dataAdapter);
+        dataAdapter.setClickListener(this);
+
     }
 
     @Override
     public void onFailure(Call<ItemModel> call, Throwable t) {
         Toast.makeText(getApplicationContext(),"boom !",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("ItemPosition", data.get(position));
+        startActivity(intent);
     }
 }

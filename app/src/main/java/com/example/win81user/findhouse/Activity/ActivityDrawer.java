@@ -71,7 +71,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     public static ViewPager viewPager;
     public static int int_items = 3 ;
     private int[] tabIcons = {
-            R.drawable.cityscape,
+          /*  R.drawable.cityscape,*/
             R.drawable.home,
             R.drawable.placeholder
 
@@ -144,7 +144,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
                 tabLayout.setupWithViewPager(viewPager);
                 tabLayout.getTabAt(0).setIcon(tabIcons[0]);
                 tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-                tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+              /*  tabLayout.getTabAt(2).setIcon(tabIcons[2]);*/
 
             }
         });
@@ -566,7 +566,7 @@ public class ActivityDrawer extends BaseActivity implements Callback<ItemModel> 
     private void setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ShowFeed(), "");
+     /*   adapter.addFragment(new ShowFeed(), "");*/
         adapter.addFragment(new ShowFeed(), "");
         adapter.addFragment(new TestMap(), "");
         viewPager.setAdapter(adapter);
