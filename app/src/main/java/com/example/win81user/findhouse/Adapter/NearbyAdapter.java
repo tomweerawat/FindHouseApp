@@ -1,7 +1,6 @@
 package com.example.win81user.findhouse.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -9,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.win81user.findhouse.Activity.MainActivity;
 import com.example.win81user.findhouse.CustomFilter;
 import com.example.win81user.findhouse.Model.ItemModel;
 import com.example.win81user.findhouse.Model.Property;
@@ -40,8 +37,11 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.single_item,viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nearby_item_layout,viewGroup, false);
         return new ViewHolder(view);
+    }
+    public void setClickListener(ClickListener listener) {
+        this.clicklistener = listener;
     }
 
     @Override
@@ -66,6 +66,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder
         private ImageView image;
         private TextView txtdetail,texttitle;
         private Toolbar mtoolbar;
+        private ArrayList<Property> data;
         public ViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
@@ -76,14 +77,12 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder
             mtoolbar.setNavigationIcon(R.drawable.ic_navigate_before_black_36dp);*/
         }
 
-
         @Override
-        public void onClick(View view) {
-            int pos = getAdapterPosition();
-            Intent i = new Intent(view.getContext(), MainActivity.class);
-            i.putExtra("ItemPosition", pos);
-            view.getContext().startActivity(i);
-            Toast.makeText(itemView.getContext(), "Tom"+pos, Toast.LENGTH_SHORT).show();
+        public void onClick(View v) {
+            if (clicklistener != null) {
+                clicklistener.itemClicked(v, getAdapterPosition());
+            }
+
 
         }
     }

@@ -108,7 +108,7 @@ public class FilterActivity extends AppCompatActivity implements Callback<ItemMo
 
     @Override
     public void onFailure(Call<ItemModel> call, Throwable t) {
-        Toast.makeText(getApplicationContext(),"boom !",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Not Found !",Toast.LENGTH_LONG).show();
     }
 
     @Override
